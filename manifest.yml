@@ -1,4 +1,4 @@
 ---
 applications:
 - name: alki
-  buildpack: ruby
+  buildpack: ruby_buildpack
