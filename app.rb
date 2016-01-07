@@ -42,11 +42,35 @@ class Trello
       Faraday::Utils.parse_query(resp.body)
     end
   end
+
+  class Authed < Trello
+    attr_reader *%i[ access_token access_token_secret conn ]
+
+    def initialize(api_key:, api_secret:, access_token:, access_token_secret:)
+      super(api_key: api_key, api_secret: api_secret)
+
+      @access_token, @access_token_secret = access_token, access_token_secret
+
+      @conn = Faraday.new("https://trello.com/1") do |conn|
+        conn.request :oauth, consumer_key: self.api_key,
+                             consumer_secret: self.api_secret,
+                             token: self.access_token,
+                             token_secret: self.access_token_secret
+        conn.request :json
+
+        conn.response :raise_error
+        conn.response :json, :content_type => /\bjson$/
+
+        conn.adapter Faraday.default_adapter
+      end
+    end
+  end
 end
 
 class App < Roda
   use Rack::Session::Cookie, :secret => ENV['SECRET']
 
+  plugin :head
   plugin :json_parser
 
   route do |r|
@@ -58,7 +82,7 @@ class App < Roda
       end
     end
 
-    r.on "callback" do
+    r.is "callback" do
       r.get do
         ""
       end
