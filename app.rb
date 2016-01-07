@@ -47,6 +47,8 @@ end
 class App < Roda
   use Rack::Session::Cookie, :secret => ENV['SECRET']
 
+  plugin :json_parser
+
   route do |r|
     r.root do
       if r.session[:access_token]
@@ -54,6 +56,11 @@ class App < Roda
       else
         r.redirect "auth"
       end
+    end
+
+    r.post "callback" do
+      p r.params
+      ""
     end
 
     r.on "auth" do
