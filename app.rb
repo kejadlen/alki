@@ -58,9 +58,13 @@ class App < Roda
       end
     end
 
-    r.post "callback" do
-      p r.params
-      ""
+    r.on "callback" do
+      r.get do
+      end
+
+      r.post do
+        p r.params
+      end
     end
 
     r.on "auth" do
