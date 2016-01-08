@@ -5,7 +5,7 @@ require_relative "trello"
 
 module Alki
   class App < Roda
-    use Rack::Session::Cookie, :secret => ENV['SECRET']
+    use Rack::Session::Cookie, :secret => ENV["SECRET"]
 
     plugin :head
     plugin :json_parser
@@ -42,7 +42,7 @@ module Alki
           r.session[:token_secret] = request_token["oauth_token_secret"]
 
           url = "https://trello.com/1/OAuthAuthorizeToken"
-          url << "?oauth_token=#{request_token["oauth_token"]}&name=Hello%20World!"
+          url << "?oauth_token=#{request_token["oauth_token"]}&name=Alki"
           r.redirect url
         end
 
