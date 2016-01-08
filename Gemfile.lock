@@ -15,6 +15,7 @@ GEM
       rb-inotify (>= 0.9)
     method_source (0.8.2)
     multipart-post (2.0.0)
+    pg (0.18.4)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -28,6 +29,7 @@ GEM
       listen (~> 3.0)
     roda (2.9.0)
       rack
+    sequel (4.30.0)
     simple_oauth (0.3.1)
     slop (3.6.0)
     thor (0.19.1)
@@ -40,10 +42,12 @@ DEPENDENCIES
   faraday
   faraday_middleware
   foreman
+  pg
   pry
   rake
   rerun
   roda
+  sequel
   simple_oauth
 
 BUNDLED WITH
