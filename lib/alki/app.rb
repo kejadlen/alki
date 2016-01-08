@@ -42,7 +42,7 @@ module Alki
           r.session[:token_secret] = request_token["oauth_token_secret"]
 
           url = "https://trello.com/1/OAuthAuthorizeToken"
-          url << "?oauth_token=#{request_token["oauth_token"]}&name=Alki"
+          url << "?oauth_token=#{request_token["oauth_token"]}&name=Alki%20Beach"
           r.redirect url
         end
 

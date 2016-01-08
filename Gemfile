@@ -13,6 +13,8 @@ gem "simple_oauth"
 
 group :development do
   gem "foreman"
+  gem "minitest"
   gem "pry"
+  gem "rack-test"
   gem "rerun"
 end
