@@ -7,7 +7,16 @@ module Alki
   DB.extension :pg_json
 
    module Models
-     class User < Sequel::Model; end
+     class User < Sequel::Model
+       def trello
+         return @trello if defined?(@trello)
+         @trello = Trello::Authed.new(api_key: ENV["TRELLO_KEY"],
+                                      api_secret: ENV["TRELLO_SECRET"],
+                                      access_token: self.access_token,
+                                      access_token_secret: self.access_token_secret)
+       end
+     end
+
      class Action < Sequel::Model; end
    end
 end
