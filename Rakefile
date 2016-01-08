@@ -2,6 +2,7 @@ task :console do
   require "dotenv"
   Dotenv.load(".private.envrc")
 
+  require_relative "db"
   require_relative "trello"
   trello = Alki::Trello::Authed.new(api_key: ENV["TRELLO_KEY"],
                                     api_secret: ENV["TRELLO_SECRET"],

@@ -1,3 +1,6 @@
+require "faraday"
+require "faraday_middleware"
+
 module Alki
   class Trello
     attr_reader *%i[ api_key api_secret ]

@@ -1,7 +1,6 @@
-require "faraday"
-require "faraday_middleware"
 require "roda"
 
+require_relative "db"
 require_relative "trello"
 
 module Alki
@@ -12,9 +11,11 @@ module Alki
     plugin :json_parser
 
     route do |r|
+      user = Models::User[r.session[:user_id]]
+
       r.root do
-        if r.session[:access_token]
-          "Success! #{r.session[:access_token]}"
+        if user
+          "Success! User ID: #{user.id}"
         else
           r.redirect "auth"
         end
@@ -53,13 +54,19 @@ module Alki
           access_token = trello.access_token(token: token, token_secret: token_secret,
                                              oauth_verifier: oauth_verifier)
 
-          r.session[:access_token] = access_token
+          oauth_token = access_token["oauth_token"]
+          oauth_token_secret = access_token["oauth_token_secret"]
+
+          user = Models::User.find_or_create(access_token: oauth_token,
+                                             access_token_secret: oauth_token_secret)
+
+          r.session[:user_id] = user.id
 
           r.redirect "/"
         end
 
         r.get "sign_out" do
-          r.session.delete(:access_token)
+          r.session.delete(:user_id)
           r.redirect "/"
         end
       end
