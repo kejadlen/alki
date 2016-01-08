@@ -1,15 +1,12 @@
+$LOAD_PATH.unshift(File.expand_path("../lib", __FILE__))
+
 task :console do
   require "dotenv"
   Dotenv.load(".private.envrc")
 
-  require_relative "db"
-  require_relative "trello"
+  require "alki/db"
+  require "alki/trello"
   include Alki
-
-  trello = Trello::Authed.new(api_key: ENV["TRELLO_KEY"],
-                              api_secret: ENV["TRELLO_SECRET"],
-                              access_token: ENV["ACCESS_TOKEN"],
-                              access_token_secret: ENV["ACCESS_TOKEN_SECRET"])
 
   require "pry"
   binding.pry
@@ -18,7 +15,7 @@ end
 namespace :db do
   desc "Run migrations"
   task :migrate, [:version] do |t, args|
-    require_relative "db"
+    require "alki/db"
 
     Sequel.extension :migration
 
