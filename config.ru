@@ -1,3 +1,3 @@
 require "./app.rb"
 
-run App.freeze.app
+run Alki::App.freeze.app
