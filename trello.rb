@@ -64,6 +64,10 @@ module Alki
           conn.adapter Faraday.default_adapter
         end
       end
+
+      def members_me
+        self.conn.get("members/me").body
+      end
     end
   end
 end

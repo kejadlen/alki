@@ -28,7 +28,7 @@ namespace :db do
       Sequel::Migrator.run(Alki::DB, "db/migrations")
     end
 
-    DB.extension :schema_dumper
+    Alki::DB.extension :schema_dumper
     File.write("db/schema.rb", Alki::DB.dump_schema_migration(same_db: true).gsub(/^\s+$/, ''))
   end
 end

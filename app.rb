@@ -57,8 +57,14 @@ module Alki
           oauth_token = access_token["oauth_token"]
           oauth_token_secret = access_token["oauth_token_secret"]
 
-          user = Models::User.find_or_create(access_token: oauth_token,
-                                             access_token_secret: oauth_token_secret)
+          authed = Trello::Authed.new(api_key: ENV["TRELLO_KEY"],
+                                      api_secret: ENV["TRELLO_SECRET"],
+                                      access_token: oauth_token,
+                                      access_token_secret: oauth_token_secret)
+          me = authed.members_me
+
+          user = Models::User.find_or_create(trello_id: me["id"])
+          user.update(access_token: oauth_token, access_token_secret: oauth_token_secret)
 
           r.session[:user_id] = user.id
 

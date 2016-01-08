@@ -6,10 +6,11 @@ Sequel.migration do
 
     create_table(:users) do
       primary_key :id
-      column :access_token, "text", :null=>false
-      column :access_token_secret, "text", :null=>false
+      column :access_token, "text"
+      column :access_token_secret, "text"
       column :created_at, "timestamp without time zone"
       column :updated_at, "timestamp without time zone"
+      column :trello_id, "text", :null=>false
     end
   end
 end
