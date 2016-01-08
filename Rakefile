@@ -2,7 +2,7 @@ task :console do
   require "dotenv"
   Dotenv.load(".private.envrc")
 
-  require "./app"
+  require_relative "trello"
   trello = Trello::Authed.new(api_key: ENV["TRELLO_KEY"],
                               api_secret: ENV["TRELLO_SECRET"],
                               access_token: ENV["ACCESS_TOKEN"],
