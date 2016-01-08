@@ -27,7 +27,7 @@ module Alki
         end
 
         r.post do
-          p r.params
+          Models::Action.create(raw: r.params["action"])
           ""
         end
       end

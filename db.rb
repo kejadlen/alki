@@ -8,5 +8,6 @@ module Alki
 
    module Models
      class User < Sequel::Model; end
+     class Action < Sequel::Model; end
    end
 end
