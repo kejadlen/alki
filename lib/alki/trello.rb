@@ -68,6 +68,10 @@ module Alki
       def members_me
         self.conn.get("members/me").body
       end
+
+      def members_me_boards
+        self.conn.get("members/me/boards").body
+      end
     end
   end
 end

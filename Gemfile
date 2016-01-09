@@ -17,4 +17,5 @@ group :development do
   gem "pry"
   gem "rack-test"
   gem "rerun"
+  gem "vcr"
 end

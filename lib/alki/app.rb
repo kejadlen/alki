@@ -11,31 +11,10 @@ module Alki
     plugin :json_parser
 
     route do |r|
-      user = Models::User[r.session[:user_id]]
-
-      r.root do
-        if user
-          "Success! User ID: #{user.id}"
-        else
-          r.redirect "auth"
-        end
-      end
-
-      r.is "callback" do
-        r.get do
-          ""
-        end
-
-        r.post do
-          Models::Action.create(raw: r.params["action"])
-          ""
-        end
-      end
-
-      r.on "auth" do
+        r.on "auth" do
         trello = Trello::OAuth.new(api_key: ENV["TRELLO_KEY"], api_secret: ENV["TRELLO_SECRET"])
 
-        r.is do
+        r.get "sign_in" do
           callback = "http://#{r.host_with_port}/auth/callback"
           request_token = trello.request_token(callback: callback)
 
@@ -74,6 +53,28 @@ module Alki
         r.get "sign_out" do
           r.session.delete(:user_id)
           r.redirect "/"
+        end
+      end
+
+      user = Models::User[r.session[:user_id]]
+      r.redirect "auth/sign_in" unless user
+
+      r.root do
+        "Success! User ID: #{user.id}"
+      end
+
+      r.get "boards" do
+        user.trello.members_me_boards.inspect
+      end
+
+      r.is "callback" do
+        r.get do
+          ""
+        end
+
+        r.post do
+          Models::Action.create(raw: r.params["action"])
+          ""
         end
       end
     end

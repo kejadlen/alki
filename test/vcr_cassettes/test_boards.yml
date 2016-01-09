@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://trello.com/1/members/me/boards
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      Authorization:
+      - OAuth oauth_consumer_key="5418d979bf4121eb1d1db52384d0e8f6", oauth_nonce="6c82fcde8a9ebd40aee67bc76e4d6e4c",
+        oauth_signature="VZXJmgEWGdbpYPe0ztaRbwTWRCk%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1452301240", oauth_token="95c590519e0dbc29dc412d76f8a9f969c39398d3ddcd2e8900b2e200480fd504",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      cache-control:
+      - max-age=0, must-revalidate, no-cache, no-store
+      x-content-type-options:
+      - nosniff
+      strict-transport-security:
+      - max-age=15768000
+      x-xss-protection:
+      - 1; mode=block
+      x-frame-options:
+      - DENY
+      x-trello-version:
+      - 1.556.0
+      x-trello-environment:
+      - Production
+      set-cookie:
+      - dsc=d2803fd719a86734a0ac8b87ca886eec52cb6932cb0f492343bf930fe5496be4; Path=/;
+        Expires=Tue, 12 Jan 2016 01:00:41 GMT; Secure, visid_incap_168551=4HuPZhA6T22xEY9XuBmzwblbkFYAAAAAQUIPAAAAAACXEpw3Iho4hHXxhxC+XY13;
+        expires=Sun, 07 Jan 2018 13:06:38 GMT; path=/; Domain=.trello.com, incap_ses_226_168551=8zfoYw2jUnRsAl8Xu+oiA7lbkFYAAAAAisoCiQuhydEDgK5Mg7379w==;
+        path=/; Domain=.trello.com
+      access-control-allow-origin:
+      - "*"
+      access-control-allow-methods:
+      - GET, PUT, POST, DELETE
+      x-server-time:
+      - '1452301241489'
+      expires:
+      - Thu, 01 Jan 1970 00:00:00
+      content-type:
+      - application/json; charset=utf-8
+      etag:
+      - W/"9M5WJm5yVLy8JyvpuzpOXg=="
+      vary:
+      - Accept-Encoding
+      date:
+      - Sat, 09 Jan 2016 01:00:41 GMT
+      connection:
+      - close
+      transfer-encoding:
+      - chunked
+      x-iinfo:
+      - 10-238384046-238384047 NNNN CT(75 84 0) RT(1452301240985 11) q(0 0 2 -1) r(3
+        3) U13
+      x-cdn:
+      - Incapsula
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"name":"Hiring","desc":"","descData":null,"closed":false,"idOrganization":null,"pinned":null,"invitations":null,"shortLink":"kyjx2Y7H","powerUps":[],"dateLastActivity":null,"idTags":[],"id":"56903b47301bbf79e2a0b62d","invited":false,"starred":false,"url":"https://trello.com/b/kyjx2Y7H/hiring","prefs":{"permissionLevel":"private","voting":"disabled","comments":"members","invitations":"members","selfJoin":false,"cardCovers":true,"cardAging":"regular","calendarFeedEnabled":false,"background":"blue","backgroundColor":"#0079BF","backgroundImage":null,"backgroundImageScaled":null,"backgroundTile":false,"backgroundBrightness":"unknown","canBePublic":true,"canBeOrg":true,"canBePrivate":true,"canInvite":true},"memberships":[{"id":"56903b47301bbf79e2a0b62e","idMember":"568eb22b4f2a9c123db4f2d3","memberType":"admin","unconfirmed":false,"deactivated":false}],"subscribed":false,"labelNames":{"green":"","yellow":"","orange":"","red":"","purple":"","blue":"","sky":"","lime":"","pink":"","black":""},"dateLastView":"2016-01-08T22:49:16.298Z","shortUrl":"https://trello.com/b/kyjx2Y7H"},{"name":"Welcome
+        Board","desc":"","descData":null,"closed":false,"idOrganization":null,"pinned":null,"invitations":null,"shortLink":"WTz0KAxL","powerUps":[],"dateLastActivity":"2016-01-08T01:51:30.507Z","idTags":[],"id":"568eb22c4f2a9c123db4f2d5","invited":false,"starred":false,"url":"https://trello.com/b/WTz0KAxL/welcome-board","prefs":{"permissionLevel":"private","voting":"disabled","comments":"members","invitations":"members","selfJoin":true,"cardCovers":true,"calendarFeedEnabled":false,"background":"blue","backgroundColor":"#0079BF","backgroundImage":null,"backgroundImageScaled":null,"backgroundTile":false,"backgroundBrightness":"unknown","canBePublic":true,"canBeOrg":true,"canBePrivate":true,"canInvite":true},"memberships":[{"id":"568eb22c4f2a9c123db4f2d9","idMember":"4e6a7fad05d98b02ba00845c","memberType":"normal","unconfirmed":false,"deactivated":false},{"id":"568eb22c4f2a9c123db4f2da","idMember":"568eb22b4f2a9c123db4f2d3","memberType":"admin","unconfirmed":false,"deactivated":false}],"subscribed":false,"labelNames":{"green":"","yellow":"","orange":"","red":"","purple":"","blue":"","sky":"","lime":"","pink":"","black":""},"dateLastView":"2016-01-08T04:40:34.077Z","shortUrl":"https://trello.com/b/WTz0KAxL"}]'
+    http_version: 
+  recorded_at: Sat, 09 Jan 2016 01:00:41 GMT
+recorded_with: VCR 3.0.1
