@@ -7,8 +7,11 @@ module Alki
   class App < Roda
     use Rack::Session::Cookie, :secret => ENV["SECRET"]
 
+    opts[:root] = File.expand_path("..", __FILE__)
+
     plugin :head
     plugin :json_parser
+    plugin :render
 
     route do |r|
         r.on "auth" do
@@ -60,11 +63,12 @@ module Alki
       r.redirect "auth/sign_in" unless user
 
       r.root do
-        "Success! User ID: #{user.id}"
+        view "index", locals: { user: user }
       end
 
       r.get "boards" do
-        user.trello.members_me_boards.inspect
+        boards = user.trello.members_me_boards
+        view "boards", locals: { boards: boards }
       end
 
       r.is "callback" do

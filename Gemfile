@@ -10,6 +10,7 @@ gem "rake"
 gem "roda"
 gem "sequel"
 gem "simple_oauth"
+gem "tilt"
 
 group :development do
   gem "foreman"
