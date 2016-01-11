@@ -42,8 +42,8 @@ module Alki
       end
 
       assert last_response.ok?
-      assert_includes last_response.body, "Welcome Board"
-      assert_includes last_response.body, "Hiring"
+      assert_includes last_response.body, "Welcome Board (Start)"
+      assert_includes last_response.body, "Hiring (Stop)"
     end
 
     def test_add_webhook

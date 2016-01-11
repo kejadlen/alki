@@ -1,5 +1,5 @@
 <ul>
   <% boards.each do |board| %>
-    <li><%= board["name"] %></li>
+    <li><%= board[:name] %> (<%= (board[:listening]) ? "Stop" : "Start" %>)</li>
   <% end %>
 </ul>

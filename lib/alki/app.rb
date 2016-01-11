@@ -69,7 +69,11 @@ module Alki
       end
 
       r.get "boards" do
-        view "boards", locals: { boards: user.boards }
+        webhook_board_ids = user.webhooks.map {|wh| wh["idModel"] }
+        boards = user.boards.map {|b| { name: b["name"],
+                                        listening: webhook_board_ids.include?(b["id"]) }}
+
+        view "boards", locals: { boards: boards}
       end
 
       r.is "callback" do
