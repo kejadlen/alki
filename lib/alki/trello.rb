@@ -72,6 +72,18 @@ module Alki
       def members_me_boards
         self.conn.get("members/me/boards").body
       end
+
+      def token_webhooks
+        self.conn.get("tokens/#{self.access_token}/webhooks").body
+      end
+
+      def delete_webhook(webhook_id)
+        self.conn.delete("webhooks/#{webhook_id}")
+      end
+
+      def add_webhook(board_id:, callback_url:)
+        self.conn.post("webhooks", idModel: board_id, callbackURL: callback_url)
+      end
     end
   end
 end

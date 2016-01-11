@@ -10,6 +10,7 @@ module Alki
 
     opts[:root] = File.expand_path("..", __FILE__)
 
+    plugin :all_verbs
     plugin :head
     plugin :json_parser
     plugin :render
@@ -79,6 +80,18 @@ module Alki
         r.post do
           Models::Action.create(raw: r.params["action"])
           ""
+        end
+      end
+
+      r.on "webhook" do
+        r.delete ":webhook_id" do |webhook_id|
+          user.delete_webhook(webhook_id)
+          r.redirect "boards"
+        end
+
+        r.post do
+          user.add_webhook(board_id: r.params["board_id"], callback_url: "http://#{r.host_with_port}/callback")
+          r.redirect "boards"
         end
       end
     end

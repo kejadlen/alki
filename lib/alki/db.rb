@@ -9,8 +9,22 @@ module Alki
    module Models
      class User < Sequel::Model
        def boards
-         self.trello.members_me_boards
+         trello.members_me_boards
        end
+
+       def delete_webhook(webhook_id)
+         trello.delete_webhook(webhook_id)
+       end
+
+       def add_webhook(board_id:, callback_url:)
+         trello.add_webhook(board_id: board_id, callback_url: callback_url)
+       end
+
+       def webhooks
+         trello.token_webhooks
+       end
+
+       private
 
        def trello
          return @trello if defined?(@trello)

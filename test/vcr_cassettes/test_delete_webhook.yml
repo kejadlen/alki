@@ -1,0 +1,71 @@
+---
+http_interactions:
+- request:
+    method: delete
+    uri: https://trello.com/1/webhooks/some_webhook_id
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      Authorization:
+      - OAuth oauth_consumer_key="5418d979bf4121eb1d1db52384d0e8f6", oauth_nonce="1382933d1e658da735ce2e8954e02f31",
+        oauth_signature="2JsND7lL%2FoL7Wwdkvk%2FWh0BOYeM%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1452554730", oauth_token="95c590519e0dbc29dc412d76f8a9f969c39398d3ddcd2e8900b2e200480fd504",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      cache-control:
+      - max-age=0, must-revalidate, no-cache, no-store
+      x-content-type-options:
+      - nosniff
+      strict-transport-security:
+      - max-age=15768000
+      x-xss-protection:
+      - 1; mode=block
+      x-frame-options:
+      - DENY
+      x-trello-version:
+      - 1.557.0
+      x-trello-environment:
+      - Production
+      access-control-allow-origin:
+      - "*"
+      access-control-allow-methods:
+      - GET, PUT, POST, DELETE
+      x-server-time:
+      - '1452554730886'
+      expires:
+      - Thu, 01 Jan 1970 00:00:00
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '16'
+      etag:
+      - W/"10-3393249b"
+      vary:
+      - Accept-Encoding
+      date:
+      - Mon, 11 Jan 2016 23:25:30 GMT
+      connection:
+      - close
+      set-cookie:
+      - visid_incap_168551=hHeCjbIhRTqrxRstGodR3JQ5lFYAAAAAQUIPAAAAAAB3eBaMaJoyJdXlk/pmVakx;
+        expires=Wed, 10 Jan 2018 19:40:46 GMT; path=/; Domain=.trello.com, incap_ses_226_168551=cX66SAhooFuUgAdMveoiA+k5lFYAAAAA3bg7vfV6fyupY39IKgdeVg==;
+        path=/; Domain=.trello.com
+      x-iinfo:
+      - 10-26864759-26864762 NNNN CT(81 75 0) RT(1452554729627 10) q(0 0 1 0) r(3
+        3) U6
+      x-cdn:
+      - Incapsula
+    body:
+      encoding: UTF-8
+      string: |
+        {"_value":null}
+    http_version: 
+  recorded_at: Mon, 11 Jan 2016 23:25:30 GMT
+recorded_with: VCR 3.0.1

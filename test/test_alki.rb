@@ -45,5 +45,25 @@ module Alki
       assert_includes last_response.body, "Welcome Board"
       assert_includes last_response.body, "Hiring"
     end
+
+    def test_add_webhook
+      board_id = "some_board_id"
+
+      VCR.use_cassette("test_add_webhook") do
+        post "webhook", { "board_id" => board_id }, "rack.session" => { user_id: @user.id }
+      end
+
+      assert last_response.redirect?
+    end
+
+    def test_delete_webhook
+      webhook_id = "some_webhook_id"
+
+      VCR.use_cassette("test_delete_webhook") do
+        delete "webhook/#{webhook_id}", {}, "rack.session" => { user_id: @user.id }
+      end
+
+      assert last_response.redirect?
+    end
   end
 end
