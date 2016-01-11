@@ -8,6 +8,10 @@ module Alki
 
    module Models
      class User < Sequel::Model
+       def boards
+         self.trello.members_me_boards
+       end
+
        def trello
          return @trello if defined?(@trello)
          @trello = Trello::Authed.new(api_key: ENV["TRELLO_KEY"],

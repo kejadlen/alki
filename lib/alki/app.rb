@@ -67,8 +67,7 @@ module Alki
       end
 
       r.get "boards" do
-        boards = user.trello.members_me_boards
-        view "boards", locals: { boards: boards }
+        view "boards", locals: { boards: user.boards }
       end
 
       r.is "callback" do
