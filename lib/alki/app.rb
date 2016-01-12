@@ -80,15 +80,21 @@ module Alki
         view "index", locals: { user: user }
       end
 
-      r.get "boards" do
-        boards_to_webhooks = Hash[user.webhooks.map {|webhook| [webhook["idModel"], webhook["id"]] }]
-        boards = user.boards.map {|board| { id: board["id"],
-                                            webhook_id: boards_to_webhooks[board["id"]],
-                                            name: board["name"] }}
+      r.on "boards" do
+        r.is do
+          boards_to_webhooks = Hash[user.webhooks.map {|webhook| [webhook["idModel"], webhook["id"]] }]
+          boards = user.boards.map {|board| { id: board["id"],
+                                              webhook_id: boards_to_webhooks[board["id"]],
+                                              name: board["name"] }}
 
-        view "boards", locals: { boards: boards}
+          view "boards", locals: { boards: boards}
+        end
+
+        r.get ":board_id" do |board_id|
+          board = user.board(board_id)
+          view "board", locals: { board: board }
+        end
       end
-
 
       r.on "webhook" do
         r.delete ":webhook_id" do |webhook_id|

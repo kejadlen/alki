@@ -42,6 +42,8 @@ module Alki
       end
 
       assert last_response.ok?
+      assert_includes last_response.body, "Hiring"
+      assert_includes last_response.body, "Welcome Board"
     end
 
     def test_add_webhook
@@ -62,6 +64,15 @@ module Alki
       end
 
       assert last_response.ok?
+    end
+
+    def test_boards_id
+      VCR.use_cassette("test_board") do
+        get "boards/some_board_id", {}, "rack.session" => { user_id: @user.id }
+      end
+
+      assert last_response.ok?
+      assert_includes last_response.body, "A Board Name"
     end
   end
 end

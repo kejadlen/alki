@@ -8,6 +8,10 @@ module Alki
 
    module Models
      class User < Sequel::Model
+       def board(board_id)
+         trello.boards(board_id)
+       end
+
        def boards
          trello.members_me_boards
        end

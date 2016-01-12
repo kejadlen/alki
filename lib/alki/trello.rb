@@ -65,6 +65,10 @@ module Alki
         end
       end
 
+      def boards(board_id)
+        self.conn.get("boards/#{board_id}").body
+      end
+
       def members_me
         self.conn.get("members/me").body
       end
