@@ -39,4 +39,8 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-task default: :test
+task :jshint do
+  sh("jshint --exclude jasmine/lib .")
+end
+
+task default: [:test, :jshint]
