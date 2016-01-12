@@ -1,5 +1,25 @@
 <ul>
   <% boards.each do |board| %>
-    <li><%= board[:name] %> (<%= (board[:listening]) ? "Stop" : "Start" %>)</li>
+    <li>
+      <%= board[:name] %> (<a href="#" id="<%= board[:webhook_id] || board[:id] %>" class="<%= (board[:webhook_id]) ? "stop" : "start" %>"><%= (board[:webhook_id]) ? "Stop" : "Start" %></a>)
+    </li>
   <% end %>
 </ul>
+
+<script type="text/javascript">
+    $(function(){
+        $('.stop').click(function(){
+            $.ajax({
+                type: "DELETE",
+                url: "webhook/" + this.id,
+                success: function(){ location.reload(); }
+            });
+            return false;
+        });
+
+        $('.start').click(function(){
+            $.post("webhook", { board_id: this.id }, function(){ location.reload(); });
+            return false;
+        });
+    });
+</script>

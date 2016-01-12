@@ -42,8 +42,6 @@ module Alki
       end
 
       assert last_response.ok?
-      assert_includes last_response.body, "Welcome Board (Start)"
-      assert_includes last_response.body, "Hiring (Stop)"
     end
 
     def test_add_webhook
@@ -53,7 +51,7 @@ module Alki
         post "webhook", { "board_id" => board_id }, "rack.session" => { user_id: @user.id }
       end
 
-      assert last_response.redirect?
+      assert last_response.ok?
     end
 
     def test_delete_webhook
@@ -63,7 +61,7 @@ module Alki
         delete "webhook/#{webhook_id}", {}, "rack.session" => { user_id: @user.id }
       end
 
-      assert last_response.redirect?
+      assert last_response.ok?
     end
   end
 end

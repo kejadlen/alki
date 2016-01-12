@@ -69,9 +69,10 @@ module Alki
       end
 
       r.get "boards" do
-        webhook_board_ids = user.webhooks.map {|wh| wh["idModel"] }
-        boards = user.boards.map {|b| { name: b["name"],
-                                        listening: webhook_board_ids.include?(b["id"]) }}
+        boards_to_webhooks = Hash[user.webhooks.map {|webhook| [webhook["idModel"], webhook["id"]] }]
+        boards = user.boards.map {|board| { id: board["id"],
+                                            webhook_id: boards_to_webhooks[board["id"]],
+                                            name: board["name"] }}
 
         view "boards", locals: { boards: boards}
       end
@@ -90,12 +91,12 @@ module Alki
       r.on "webhook" do
         r.delete ":webhook_id" do |webhook_id|
           user.delete_webhook(webhook_id)
-          r.redirect "boards"
+          ""
         end
 
         r.post do
           user.add_webhook(board_id: r.params["board_id"], callback_url: "http://#{r.host_with_port}/callback")
-          r.redirect "boards"
+          ""
         end
       end
     end
