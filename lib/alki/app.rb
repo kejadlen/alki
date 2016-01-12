@@ -14,6 +14,7 @@ module Alki
     plugin :head
     plugin :json_parser
     plugin :render
+    plugin :static, ["/js"]
 
     route do |r|
       r.on "auth" do
