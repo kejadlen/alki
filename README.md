@@ -20,6 +20,16 @@ DATABASE_URL
 
 Trello API keys can be obtained [here](https://trello.com/app-key).
 
+## Running the tests
+
+```
+rake
+```
+
+### Jasmine
+
+Open file://<repo root>/jasmine/SpecRunner.html in a browser.
+
 ## Pushing
 
 ```
