@@ -1,5 +1,5 @@
 require "roda"
-require "tilt/erb"
+require "tilt/erubis"
 
 require_relative "db"
 require_relative "trello"
@@ -13,7 +13,7 @@ module Alki
     plugin :all_verbs
     plugin :head
     plugin :json_parser
-    plugin :render
+    plugin :render, escape: true
     plugin :static, ["/js"]
 
     route do |r|
@@ -92,7 +92,8 @@ module Alki
 
         r.get ":board_id" do |board_id|
           board = user.board(board_id)
-          view "board", locals: { board: board }
+          cards = user.cards(board_id)
+          view "board", locals: { board: board, cards: cards }
         end
       end
 

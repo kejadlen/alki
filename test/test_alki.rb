@@ -66,13 +66,16 @@ module Alki
       assert last_response.ok?
     end
 
-    def test_boards_id
+    def test_board
       VCR.use_cassette("test_board") do
         get "boards/some_board_id", {}, "rack.session" => { user_id: @user.id }
       end
 
       assert last_response.ok?
       assert_includes last_response.body, "A Board Name"
+      %w[ Alice Bob Mallory Smith ].each do |name|
+        assert_includes last_response.body, name
+      end
     end
   end
 end

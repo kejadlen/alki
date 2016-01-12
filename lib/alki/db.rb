@@ -16,6 +16,10 @@ module Alki
          trello.members_me_boards
        end
 
+       def cards(board_id)
+         trello.boards_cards(board_id)
+       end
+
        def delete_webhook(webhook_id)
          trello.delete_webhook(webhook_id)
        end

@@ -70,4 +70,72 @@ http_interactions:
       string: '{"id":"some_board_id","name":"A Board Name","desc":"","descData":null,"closed":false,"idOrganization":null,"pinned":false,"url":"https://trello.com/b/kyjx2Y7H/hiring","shortUrl":"https://trello.com/b/kyjx2Y7H","prefs":{"permissionLevel":"private","voting":"disabled","comments":"members","invitations":"members","selfJoin":false,"cardCovers":true,"cardAging":"regular","calendarFeedEnabled":false,"background":"blue","backgroundColor":"#0079BF","backgroundImage":null,"backgroundImageScaled":null,"backgroundTile":false,"backgroundBrightness":"unknown","canBePublic":true,"canBeOrg":true,"canBePrivate":true,"canInvite":true},"labelNames":{"green":"","yellow":"","orange":"","red":"","purple":"","blue":"","sky":"","lime":"","pink":"","black":""}}'
     http_version: 
   recorded_at: Tue, 12 Jan 2016 19:45:09 GMT
+- request:
+    method: get
+    uri: https://trello.com/1/boards/some_board_id/cards
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.2
+      Authorization:
+      - OAuth oauth_consumer_key="5418d979bf4121eb1d1db52384d0e8f6", oauth_nonce="8ff880493cd26e9a77427b95ba41dfef",
+        oauth_signature="RWCgOK9nqvGOdDa%2FIo69OXO2Bb0%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1452628587", oauth_token="95c590519e0dbc29dc412d76f8a9f969c39398d3ddcd2e8900b2e200480fd504",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      cache-control:
+      - max-age=0, must-revalidate, no-cache, no-store
+      x-content-type-options:
+      - nosniff
+      strict-transport-security:
+      - max-age=15768000
+      x-xss-protection:
+      - 1; mode=block
+      x-frame-options:
+      - DENY
+      x-trello-version:
+      - 1.559.0
+      x-trello-environment:
+      - Production
+      set-cookie:
+      - dsc=8c6c116540697446297b4f4f8908ded1d510854ba388f0401adf442186c2996d; Path=/;
+        Expires=Fri, 15 Jan 2016 19:56:27 GMT; Secure, visid_incap_168551=Fn2spR7LTZGaLzhe92Br9GtalVYAAAAAQUIPAAAAAABWcJmqUCF6gWIATieWgl9/;
+        expires=Thu, 11 Jan 2018 14:06:48 GMT; path=/; Domain=.trello.com, incap_ses_227_168551=yLxhZ31VaACsajzbbHgmA2talVYAAAAAbc3WPbb34srXIuCAOkRulg==;
+        path=/; Domain=.trello.com
+      access-control-allow-origin:
+      - "*"
+      access-control-allow-methods:
+      - GET, PUT, POST, DELETE
+      x-server-time:
+      - '1452628587936'
+      expires:
+      - Thu, 01 Jan 1970 00:00:00
+      content-type:
+      - application/json; charset=utf-8
+      etag:
+      - W/"h2xlF/S1h2zAnz/13ffypw=="
+      vary:
+      - Accept-Encoding
+      date:
+      - Tue, 12 Jan 2016 19:56:27 GMT
+      connection:
+      - close
+      transfer-encoding:
+      - chunked
+      x-iinfo:
+      - 8-41318149-41318152 NNNN CT(88 94 0) RT(1452628587446 12) q(0 0 2 0) r(3 3)
+        U16
+      x-cdn:
+      - Incapsula
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"id":"5694509d505786bb0da037b2","checkItemStates":[],"closed":false,"dateLastActivity":"2016-01-12T01:02:21.331Z","desc":"","descData":null,"idBoard":"56903b47301bbf79e2a0b62d","idList":"56903b5cf8dde35f827c63ae","idMembersVoted":[],"idShort":6,"idAttachmentCover":null,"manualCoverAttachment":false,"idLabels":[],"name":"Alice","pos":65535,"shortLink":"1XqxfHhc","badges":{"votes":0,"viewingMemberVoted":false,"subscribed":false,"fogbugz":"","checkItems":0,"checkItemsChecked":0,"comments":0,"attachments":0,"description":false,"due":null},"due":null,"email":"achen_pivotal+568eb22b4f2a9c123db4f2d3+5694509d505786bb0da037b2+dde2a38eed762bd5c22911e3299ed477dff50509@boards.trello.com","idChecklists":[],"idMembers":[],"labels":[],"shortUrl":"https://trello.com/c/1XqxfHhc","subscribed":false,"url":"https://trello.com/c/1XqxfHhc/6-kurtis-seebaldt"},{"id":"56944ecb0fbae97e72787568","checkItemStates":[],"closed":false,"dateLastActivity":"2016-01-12T01:00:05.733Z","desc":"","descData":null,"idBoard":"56903b47301bbf79e2a0b62d","idList":"56903b61281e96dd0ae060f2","idMembersVoted":[],"idShort":4,"idAttachmentCover":null,"manualCoverAttachment":false,"idLabels":[],"name":"Bob","pos":131071,"shortLink":"Dln2zB3R","badges":{"votes":0,"viewingMemberVoted":false,"subscribed":false,"fogbugz":"","checkItems":0,"checkItemsChecked":0,"comments":0,"attachments":0,"description":false,"due":null},"due":null,"email":"achen_pivotal+568eb22b4f2a9c123db4f2d3+56944ecb0fbae97e72787568+44a1e183766eb09d5e7e580da1fe14fcd5b01595@boards.trello.com","idChecklists":[],"idMembers":[],"labels":[],"shortUrl":"https://trello.com/c/Dln2zB3R","subscribed":false,"url":"https://trello.com/c/Dln2zB3R/4-augustus-lidaka"},{"id":"56944eb03f9eb44a94d7adb7","checkItemStates":[],"closed":false,"dateLastActivity":"2016-01-12T01:00:28.321Z","desc":"","descData":null,"idBoard":"56903b47301bbf79e2a0b62d","idList":"56903b61281e96dd0ae060f2","idMembersVoted":[],"idShort":3,"idAttachmentCover":null,"manualCoverAttachment":false,"idLabels":[],"name":"Mallory","pos":196607,"shortLink":"hedFBtH4","badges":{"votes":0,"viewingMemberVoted":false,"subscribed":false,"fogbugz":"","checkItems":0,"checkItemsChecked":0,"comments":0,"attachments":0,"description":false,"due":null},"due":null,"email":"achen_pivotal+568eb22b4f2a9c123db4f2d3+56944eb03f9eb44a94d7adb7+81f01d0ed0405688603b5652931f8d7736a65df5@boards.trello.com","idChecklists":[],"idMembers":[],"labels":[],"shortUrl":"https://trello.com/c/hedFBtH4","subscribed":false,"url":"https://trello.com/c/hedFBtH4/3-alpha-chen"},{"id":"5694504ff8cef4f106b85903","checkItemStates":[],"closed":false,"dateLastActivity":"2016-01-12T01:34:08.657Z","desc":"","descData":null,"idBoard":"56903b47301bbf79e2a0b62d","idList":"56903b64a1b0273e5061ed36","idMembersVoted":[],"idShort":5,"idAttachmentCover":null,"manualCoverAttachment":false,"idLabels":[],"name":"Smith","pos":163839,"shortLink":"9BILH14p","badges":{"votes":0,"viewingMemberVoted":false,"subscribed":false,"fogbugz":"","checkItems":0,"checkItemsChecked":0,"comments":0,"attachments":0,"description":false,"due":null},"due":null,"email":"achen_pivotal+568eb22b4f2a9c123db4f2d3+5694504ff8cef4f106b85903+7c720bad06c27debedb530993e0b34f5d35e43ed@boards.trello.com","idChecklists":[],"idMembers":[],"labels":[],"shortUrl":"https://trello.com/c/9BILH14p","subscribed":false,"url":"https://trello.com/c/9BILH14p/5-steve-gravrock"}]'
+    http_version: 
+  recorded_at: Tue, 12 Jan 2016 19:56:27 GMT
 recorded_with: VCR 3.0.1
