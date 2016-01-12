@@ -1,5 +1,6 @@
 /* jshint jasmine: true */
 describe("Boards", function () {
+    "use strict";
     beforeEach(function () {
         spyOn($, "post");
         spyOn($, "ajax");
