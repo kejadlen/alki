@@ -61,6 +61,17 @@ module Alki
         end
       end
 
+      r.is "callback" do
+        r.get do
+          ""
+        end
+
+        r.post do
+          Models::Action.create(raw: r.params["action"])
+          ""
+        end
+      end
+
       user = Models::User[r.session[:user_id]]
       r.redirect "auth/sign_in" unless user
 
@@ -77,16 +88,6 @@ module Alki
         view "boards", locals: { boards: boards}
       end
 
-      r.is "callback" do
-        r.get do
-          ""
-        end
-
-        r.post do
-          Models::Action.create(raw: r.params["action"])
-          ""
-        end
-      end
 
       r.on "webhook" do
         r.delete ":webhook_id" do |webhook_id|
