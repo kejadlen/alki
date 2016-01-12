@@ -93,10 +93,10 @@ module Alki
 
         r.get ":board_id" do |board_id|
           board = user.board(board_id)
-          list_ids_to_names = Hash[user.lists(board_id).map {|list| [list["id"], list["name"]] }]
+          list_ids_to_names = Hash[board.lists.map {|list| [list["id"], list["name"]] }]
 
-          cards = user.cards(board_id).map {|card| { name: card["name"],
-                                                     list_name: list_ids_to_names[card["idList"]] }}
+          cards = board.cards.map {|card| { name: card["name"],
+                                            list_name: list_ids_to_names[card["idList"]] }}
 
           view "board", locals: { board: board, cards: cards }
         end

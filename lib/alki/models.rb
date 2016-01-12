@@ -2,21 +2,36 @@ require_relative "trello"
 
 module Alki
   module Models
+    class Board
+      attr_reader :board_id, :name
+
+      def initialize(board_id:, name:, trello:)
+        @board_id, @name, @trello = board_id, name, trello
+      end
+
+      def cards
+        trello.boards_cards(self.board_id)
+      end
+
+      def lists
+        trello.boards_lists(self.board_id)
+      end
+
+      private
+
+      def trello
+        @trello
+      end
+    end
+
     class User < Sequel::Model
       def board(board_id)
-        trello.boards(board_id)
+        board = trello.boards(board_id)
+        Board.new(board_id: board["id"], name: board["name"], trello: trello)
       end
 
       def boards
         trello.members_me_boards
-      end
-
-      def cards(board_id)
-        trello.boards_cards(board_id)
-      end
-
-      def lists(board_id)
-        trello.boards_lists(board_id)
       end
 
       def delete_webhook(webhook_id)
