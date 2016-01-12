@@ -1,7 +1,7 @@
 <ul>
   <% boards.each do |board| %>
     <li>
-      <%= board[:name] %> (<a href="#" id="<%= board[:webhook_id] || board[:id] %>" class="<%= (board[:webhook_id]) ? "stop" : "start" %>"><%= (board[:webhook_id]) ? "Stop" : "Start" %></a>)
+      <a href="boards/<%= board[:id] %>"><%= board[:name] %></a> (<a href="#" id="<%= board[:webhook_id] || board[:id] %>" class="<%= (board[:webhook_id]) ? "stop" : "start" %>"><%= (board[:webhook_id]) ? "Stop" : "Start" %></a>)
     </li>
   <% end %>
 </ul>
