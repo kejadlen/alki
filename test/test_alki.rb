@@ -72,10 +72,14 @@ module Alki
       end
 
       assert last_response.ok?
+
       assert_includes last_response.body, "A Board Name"
+
       %w[ Alice Bob Mallory Smith ].each do |name|
         assert_includes last_response.body, name
       end
+
+      assert_includes last_response.body, "Alice (Waiting for RPI)"
     end
   end
 end
