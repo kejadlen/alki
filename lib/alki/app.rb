@@ -95,8 +95,8 @@ module Alki
           board = user.board(board_id)
           list_ids_to_names = Hash[board.lists.map {|list| [list["id"], list["name"]] }]
 
-          cards = board.cards.map {|card| { name: card["name"],
-                                            list_name: list_ids_to_names[card["idList"]] }}
+          cards = board.cards.map {|card| { name: card.name,
+                                            list_name: list_ids_to_names[card.list_id] }}
 
           view "board", locals: { board: board, cards: cards }
         end

@@ -2,6 +2,16 @@ require_relative "trello"
 
 module Alki
   module Models
+
+    class Card
+      attr_reader :card_id, :name, :list_id
+
+      def initialize(card_id:, name:, list_id:, trello:)
+        @card_id, @name, @list_id, @trello = card_id, name, list_id, trello
+
+      end
+    end
+
     class Board
       attr_reader :board_id, :name
 
@@ -10,7 +20,9 @@ module Alki
       end
 
       def cards
-        trello.boards_cards(self.board_id)
+        trello.boards_cards(self.board_id).map do |card|
+          Card.new(card_id: card["id"], name: card["name"], list_id: card["idList"], trello: trello)
+        end
       end
 
       def lists
