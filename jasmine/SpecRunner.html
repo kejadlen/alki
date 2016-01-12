@@ -6,7 +6,16 @@
 
   <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.4.1/jasmine_favicon.png">
   <link rel="stylesheet" href="lib/jasmine-2.4.1/jasmine.css">
+  <style>
+    #jasmine-load-error {
+      display: none;
+      color: red;
+      font-weight: bold;
+    }
+  </style>
 
+
+  <script src="jasmineErrorCheck.js"></script>
   <script src="lib/jasmine-2.4.1/jasmine.js"></script>
   <script src="lib/jasmine-2.4.1/jasmine-html.js"></script>
   <script src="lib/jasmine-2.4.1/boot.js"></script>
@@ -17,9 +26,14 @@
 
   <!-- include spec files here... -->
   <script src="spec/boardsSpec.js"></script>
-
 </head>
 
 <body>
+  <div id="jasmine-load-error">
+    There was an error loading the Jasmine specs. Check the debugger console for more information.
+  </div>
+  <script>
+    window.jasmineErrorCheck();
+  </script>
 </body>
 </html>
