@@ -1,8 +1,22 @@
 /* jshint jasmine: true */
 describe("Boards", function () {
     "use strict";
+
+    var verifyAjax = function (expectedUrl, expectedMethod, expectedData) {
+        var args;
+        expect($.ajax).toHaveBeenCalled();
+        args = $.ajax.calls.mostRecent().args[0];
+        expect(args.type).toBe(expectedMethod);
+        expect(args.url).toBe(expectedUrl);
+        expect(args.data).toEqual(expectedData);
+    };
+
+    var checkReload = function (subject) {
+        $.ajax.calls.mostRecent().args[0].success();
+        expect(subject.reload).toHaveBeenCalled();
+    };
+
     beforeEach(function () {
-        spyOn($, "post");
         spyOn($, "ajax");
 
         this.$root = $('<div><a class="start" id="foo"></a><a class="stop" id="bar"></a></div>');
@@ -17,21 +31,11 @@ describe("Boards", function () {
         });
 
         it("should make a post request to webhook", function () {
-            var args;
-            expect($.post).toHaveBeenCalled();
-            args = $.post.calls.mostRecent().args;
-            expect(args[0]).toBe("webhook");
-            expect(args[1]).toEqual({board_id: "foo"});
+            verifyAjax("webhook", "POST", {board_id: "foo"});
         });
 
-        describe("on a successful call to webhook", function () {
-            beforeEach(function () {
-                $.post.calls.mostRecent().args[2]();
-            });
-
-            it("should reload the page", function() {
-                expect(this.subject.reload).toHaveBeenCalled();
-            });
+        it("should reload when the call succeeds", function () {
+            checkReload(this.subject);
         });
     });
 
@@ -41,21 +45,11 @@ describe("Boards", function () {
         });
 
         it("should make an ajax request to webhook", function () {
-            var args;
-            expect($.ajax).toHaveBeenCalled();
-            args = $.ajax.calls.mostRecent().args[0];
-            expect(args.type).toBe("DELETE");
-            expect(args.url).toEqual("webhook/bar");
+            verifyAjax("webhook/bar", "DELETE");
         });
 
-        describe("on a successful call to webhook", function () {
-            beforeEach(function () {
-                $.ajax.calls.mostRecent().args[0].success();
-            });
-
-            it("should reload the page", function() {
-                expect(this.subject.reload).toHaveBeenCalled();
-            });
+        it("should reload when the call succeeds", function () {
+            checkReload(this.subject);
         });
     });
 });
