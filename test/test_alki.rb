@@ -7,6 +7,7 @@ ENV["SECRET"] = "aBadSecret"
 
 $LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
 require "alki/app"
+require "alki/models"
 
 Sequel.extension :migration
 Sequel::Migrator.run(Alki::DB, "db/migrations")

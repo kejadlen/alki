@@ -2,6 +2,7 @@ require "roda"
 require "tilt/erubis"
 
 require_relative "db"
+require_relative "models"
 require_relative "trello"
 
 module Alki
