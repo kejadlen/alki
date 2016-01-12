@@ -2,8 +2,14 @@
 
 ## Setup
 
+### Have rbenv, bundler, and postgres installed.
+### Set the environment variables mentioned in the Environment section below.
+
+### Run the following commands:
 ```
+bundle install
 createdb alki
+createdb alki_test
 rake db:migrate
 ```
 
