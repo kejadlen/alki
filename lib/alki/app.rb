@@ -16,7 +16,7 @@ module Alki
     plugin :render
 
     route do |r|
-        r.on "auth" do
+      r.on "auth" do
         trello = Trello::OAuth.new(api_key: ENV["TRELLO_KEY"], api_secret: ENV["TRELLO_SECRET"])
 
         r.get "sign_in" do
