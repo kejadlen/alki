@@ -54,6 +54,11 @@ To actually run the tests:
 rake
 ```
 
+To record new cassettes in `test_alki.rb`, you need to use an actual access token and access token secret. These can be
+obtained from the development DB (assuming you've logged into Trello in the app) and temporarily used in the User
+object so that the initial request/response pair can be recorded. You'll then want to sanitize the request/response to
+use TEST_ACCESS_TOKEN instead of your real access token.
+
 ### Jasmine
 
 Open file://<repo root>/test/jasmine/SpecRunner.html in a browser.

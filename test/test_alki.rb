@@ -78,7 +78,19 @@ class TestAlki < Minitest::Test
     %w[ Alice Bob Mallory Smith ].each do |name|
       assert_includes last_response.body, name
     end
+  end
 
-    assert_includes last_response.body, "Alice (Waiting for RPI)"
+  def test_cycle_times
+    VCR.use_cassette("test_cycle_times") do
+      get "boards/some_board_id", {}, "rack.session" => { user_id: @user.id }
+    end
+
+    assert last_response.ok?
+    assert_includes last_response.body, <<-HTML
+    <td>Steve Gravrock</td>
+            <td>2.453</td>
+            <td>1983.085</td>
+            <td>73543.115</td>
+HTML
   end
 end

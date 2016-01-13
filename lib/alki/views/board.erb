@@ -1,6 +1,18 @@
 <h1><%= board.name %></h1>
-<ul>
+<table>
+  <tr>
+    <th>Name</th>
+    <% lists.each do |_, list_name| %>
+      <th><%= list_name %></th>
+    <% end %>
+  </tr>
   <% cards.each do |card| %>
-    <li><%= card[:name] %> (<%= card[:list_name] %>)</li>
+      <tr>
+        <td><%= card["name"] %></td>
+        <% lists.each do |list_id, _| %>
+            <td><%= cycle_times[card["id"]][list_id] %></td>
+        <% end %>
+      </tr>
   <% end %>
-</ul>
+
+</table>
