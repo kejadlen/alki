@@ -5,6 +5,7 @@ task :console do
   Dotenv.load(".private.envrc")
 
   require "alki/db"
+  require "alki/models"
   require "alki/trello"
   include Alki
 
