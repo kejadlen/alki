@@ -2,31 +2,45 @@
 
 ## Setup
 
-### Have rbenv, bundler, and postgres installed.
-### Set the environment variables mentioned in the Environment section below.
-
-### Run the following commands:
-```
-bundle install
-createdb alki
-createdb alki_test
-rake db:migrate
-```
+Requires Ruby 2.2.3 and Postgres.
 
 ### Environment
 
 Alki uses the following environment variables for configuration:
 
+- TRELLO_KEY, TRELLO_SECRET for communicating with the Trello API. These can be obtained [here](https://trello.com/app-key).
+- SECRET for the cookie secret.
+- DATABASE_URL to connect to the Postgres database.
+
+### Database
+
 ```
-TRELLO_KEY
-TRELLO_SECRET
-SECRET
-DATABASE_URL
+createdb alki
+rake db:migrate
 ```
 
-Trello API keys can be obtained [here](https://trello.com/app-key).
+## Pushing to Cloud Foundry
 
-## Running the tests
+```
+cf push
+```
+
+## Development
+
+```
+bundle install
+
+createdb alki_test
+DATABASE_URL=postgres://localhost/alki_test rake db:migrate
+```
+
+To run the development server:
+
+If postgres is running: `rerun --no-notify -- rackup`
+
+Otherwise, `foreman start -f Procfile.dev`
+
+### Running the tests
 
 ```
 rake
@@ -35,15 +49,3 @@ rake
 ### Jasmine
 
 Open file://<repo root>/jasmine/SpecRunner.html in a browser.
-
-## Pushing
-
-```
-cf push
-```
-
-## Development
-
-If postgres is running: `rerun --no-notify -- rackup`
-
-Otherwise, `foreman start -f Procfile.dev`
