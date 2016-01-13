@@ -41,7 +41,7 @@ Rake::TestTask.new do |t|
 end
 
 task :jshint do
-  sh("jshint --exclude jasmine/lib .")
+  sh("jshint --exclude test/jasmine/lib .")
 end
 
 task default: [:test, :jshint]
