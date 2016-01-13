@@ -1,3 +1,6 @@
+require "sequel"
+
+require_relative "db"
 require_relative "trello"
 
 module Alki
@@ -9,6 +12,25 @@ module Alki
         @raw, @trello = raw, trello
       end
 
+      def cycle_times
+        Hash[
+            self.actions.group_by { |action| action["data"]["card"]["id"] }
+                        .map do |card_id, actions|
+              actions = Hash[
+                  actions.sort_by { |action| action["date"] }
+                         .each_cons(2)
+                         .map do |action_1, action_2|
+                    list_id = action_2["data"]["old"]["idList"] || action_2["data"]["list"]["id"]
+                    [list_id, Time.parse(action_2["date"]) - Time.parse(action_1["date"])]
+                  end
+              ]
+              [card_id, actions]
+            end
+        ]
+      end
+
+      # Attributes
+
       def id
         self.raw["id"]
       end
@@ -16,6 +38,8 @@ module Alki
       def name
         self.raw["name"]
       end
+
+      # Trello
 
       def actions
         trello.boards_actions(self.id)
@@ -68,6 +92,7 @@ module Alki
       end
     end
 
-    class Action < Sequel::Model; end
+    class Action < Sequel::Model
+    end
   end
 end

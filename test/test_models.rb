@@ -3,28 +3,30 @@ require_relative "test_helper"
 require "alki/models"
 
 class TestBoard < Minitest::Test
+  DAYS = 24*60*60
+
   def setup
     @trello = Object.new
     @board = Models::Board.new(raw: { "board_id" => "a_board_id", "name" => "Some Board" }, trello: @trello)
   end
 
-  def test_cards
+  def test_cycle_times
     def @trello.boards_actions(*)
-      [{ "type" => "createCard", "data" => { "card" => { "id" => "1" }}},
-       { "type" => "createCard", "data" => { "card" => { "id" => "2" }}},
-       { "type" => "updateCard", "data" => { "card" => { "id" => "2" },
-                                             "listAfter" => { "id"=>"56903b61281e96dd0ae060f2" }}}]
+      [
+        { "type" => "createCard", "date" => "2016-01-01T01:00:00.000Z", "data" => { "card" => { "id" => "1"} } },
+        { "type" => "updateCard", "date" => "2016-01-02T01:00:00.000Z", "data" => { "old" => { "idList" => "some_list_id" },
+                                                                                    "card" => { "id" => "1"} } },
+        { "type" => "updateCard", "date" => "2016-01-04T01:00:00.000Z", "data" => { "old" => { "idList" => "another_list_id" },
+                                                                                    "card" => { "id" => "1"} } },
+        { "type" => "updateCard", "date" => "2016-01-07T01:00:00.000Z", "data" => { "old" => { "closed" => false },
+                                                                                    "list" => { "id" => "yet_another_list_id" },
+                                                                                    "card" => { "id" => "1"} } },
+      ]
     end
-    actions = @trello.boards_actions
 
-    def @trello.boards_cards(*)
-      [{ "id" => "1", "name" => "one", "idList" => "list_id" },
-       { "id" => "2", "name" => "two", "idList" => "list_id" },
-       { "id" => "3", "name" => "three", "idList" => "list_id" }]
-    end
-
-    cards = @board.cards
-
-    assert_equal 3, cards.size
+    ct = @board.cycle_times
+    assert_equal 1*DAYS, ct["1"]["some_list_id"]
+    assert_equal 2*DAYS, ct["1"]["another_list_id"]
+    assert_equal 3*DAYS, ct["1"]["yet_another_list_id"]
   end
 end
