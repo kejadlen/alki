@@ -24,35 +24,41 @@ module Alki
       end
     end
 
-    class Card
-      attr_reader :card_id, :name, :list_id, :actions
-
-      def initialize(card_id:, name:, list_id:, actions:, trello:)
-        @card_id, @name, @list_id, @actions, @trello = card_id, name, list_id, actions, trello
-      end
-
-      def last_moved
-        actions.map {|action| Time.parse(action["date"]) }.max
-      end
-    end
-
     class Board < TrelloModel
       trello_attr :id, :name
 
       def cards
-        cards_ids_to_actions = Hash.new {|h,k| h[k] = [] }
-        trello.boards_actions(self.trello_id).each do |action|
-          id = action["data"]["card"]["id"]
-          cards_ids_to_actions[id] << action
-        end
+        actions = trello.boards_actions(self.trello_id)
+                        .group_by {|action| action["data"]["card"]["id"] }
 
         trello.boards_cards(self.trello_id).map do |card|
-          Card.new(card_id: card["id"], name: card["name"], list_id: card["idList"], actions: cards_ids_to_actions[card["id"]], trello: trello)
+          card = Card.new(raw: card, trello: trello)
+          card.actions = actions[card.trello_id]
+          card
         end
       end
 
       def lists
         trello.boards_lists(self.trello_id)
+      end
+    end
+
+    class Card < TrelloModel
+      trello_attr :id, :name
+      attr_accessor :actions
+
+      def initialize(*)
+        super
+
+        @actions = []
+      end
+
+      def last_moved
+        actions.map {|action| Time.parse(action["date"]) }.max
+      end
+
+      def trello_list_id
+        self.raw["idList"]
       end
     end
 

@@ -9,18 +9,18 @@ module Alki
     end
 
     def test_wait_time
-      actions = [{ "type" => "createCard",
-                   "data" => { "card" => { "id" => "1" } },
-                   "date" => "2016-01-12T01:00:05.737Z" },
-                 { "type" => "updateCard",
-                   "data" => { "card" => { "id" => "1" },
-                               "listAfter" => { "id"=>"5" }},
-                   "date" => "2016-01-14T01:00:05.737Z" },
-                 { "type" => "updateCard",
-                   "data" => { "card" => { "id" => "1" },
-                               "listAfter" => { "id"=>"10" }},
-                   "date" => "2016-01-13T01:00:05.737Z" }]
-      card = Models::Card.new(card_id: "some_card_id", name: "Alice", list_id: "a_list_id", actions: actions, trello: nil)
+      card = Models::Card.new(raw: { "id" => "some_card_id", "name" => "Alice", "idList" => "a_list_id" }, trello: nil)
+      card.actions = [{ "type" => "createCard",
+                        "data" => { "card" => { "id" => "1" } },
+                        "date" => "2016-01-12T01:00:05.737Z" },
+                      { "type" => "updateCard",
+                        "data" => { "card" => { "id" => "1" },
+                                    "listAfter" => { "id"=>"5" }},
+                        "date" => "2016-01-14T01:00:05.737Z" },
+                      { "type" => "updateCard",
+                        "data" => { "card" => { "id" => "1" },
+                                    "listAfter" => { "id"=>"10" }},
+                        "date" => "2016-01-13T01:00:05.737Z" }]
 
       assert_equal Time.parse("2016-01-14T01:00:05.737Z"), card.last_moved
     end
