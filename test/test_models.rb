@@ -29,7 +29,7 @@ module Alki
   class TestBoard < Minitest::Test
     def setup
       @trello = Object.new
-      @board = Models::Board.new(board_id: "a_board_id", name: "Some Board", trello: @trello)
+      @board = Models::Board.new(raw: { "board_id" => "a_board_id", "name" => "Some Board" }, trello: @trello)
     end
 
     def test_cards

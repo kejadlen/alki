@@ -2,7 +2,6 @@ require_relative "trello"
 
 module Alki
   module Models
-
     class Card
       attr_reader :card_id, :name, :list_id, :actions
 
@@ -16,18 +15,23 @@ module Alki
     end
 
     class Board
-      attr_reader :board_id, :name
+      attr_reader :raw
 
-      def initialize(board_id:, name:, trello:)
-        @board_id, @name, @trello = board_id, name, trello
+      def initialize(raw:, trello:)
+        @raw, @trello = raw, trello
+      end
+
+      def board_id
+        self.raw["id"]
+      end
+
+      def name
+        self.raw["name"]
       end
 
       def cards
         cards_ids_to_actions = Hash.new {|h,k| h[k] = [] }
-
-        actions = trello.boards_actions(self.board_id)
-
-        actions.each do |action|
+        trello.boards_actions(self.board_id).each do |action|
           id = action["data"]["card"]["id"]
           cards_ids_to_actions[id] << action
         end
@@ -50,8 +54,7 @@ module Alki
 
     class User < Sequel::Model
       def board(board_id)
-        board = trello.boards(board_id)
-        Board.new(board_id: board["id"], name: board["name"], trello: trello)
+        Board.new(raw: trello.boards(board_id), trello: trello)
       end
 
       def boards
