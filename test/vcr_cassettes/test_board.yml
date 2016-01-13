@@ -210,7 +210,7 @@ http_interactions:
   recorded_at: Tue, 12 Jan 2016 22:10:41 GMT
 - request:
     method: get
-    uri: https://trello.com/1/boards/some_board_id/actions?filter=updateCard%3AidList%2CcreateCard
+    uri: https://trello.com/1/boards/some_board_id/actions?filter=createCard%2CupdateCard%3AidList%2CupdateCard%3Aclosed&limit=1000
     body:
       encoding: US-ASCII
       string: ''
