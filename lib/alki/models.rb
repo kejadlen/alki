@@ -26,9 +26,6 @@ module Alki
         cards_ids_to_actions = Hash.new {|h,k| h[k] = [] }
 
         actions = trello.boards_actions(self.board_id)
-        actions.select! do |action|
-          action["type"] == "createCard" || (action["type"] == "updateCard" && action["data"].has_key?("listAfter"))
-        end
 
         actions.each do |action|
           id = action["data"]["card"]["id"]

@@ -70,7 +70,7 @@ module Alki
       end
 
       def boards_actions(board_id)
-        self.conn.get("boards/#{board_id}/actions").body
+        self.conn.get("boards/#{board_id}/actions", filter: "updateCard:idList,createCard").body
       end
 
       def boards_cards(board_id)

@@ -37,9 +37,7 @@ module Alki
         [{ "type" => "createCard", "data" => { "card" => { "id" => "1" }}},
          { "type" => "createCard", "data" => { "card" => { "id" => "2" }}},
          { "type" => "updateCard", "data" => { "card" => { "id" => "2" },
-                                               "listAfter" => { "id"=>"56903b61281e96dd0ae060f2" }}},
-         { "type" => "createList", "data" => {} },
-         { "type" => "updateCard", "data" => { "card" => { "id" => "2" }}}]
+                                               "listAfter" => { "id"=>"56903b61281e96dd0ae060f2" }}}]
       end
       actions = @trello.boards_actions
 
