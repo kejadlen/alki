@@ -33,8 +33,8 @@ module Alki
 
     def setup
       @user = Models::User.create(trello_id: "some trello id",
-                                  access_token: ENV["TEST_ACCESS_TOKEN"],
-                                  access_token_secret: ENV["TEST_ACCESS_TOKEN_SECRET"])
+                                  access_token: "TEST_ACCESS_TOKEN",
+                                  access_token_secret: "TEST_ACCESS_TOKEN_SECRET")
     end
 
     def test_boards

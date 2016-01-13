@@ -71,7 +71,7 @@ http_interactions:
   recorded_at: Sat, 09 Jan 2016 01:00:41 GMT
 - request:
     method: get
-    uri: https://trello.com/1/tokens/95c590519e0dbc29dc412d76f8a9f969c39398d3ddcd2e8900b2e200480fd504/webhooks
+    uri: https://trello.com/1/tokens/TEST_ACCESS_TOKEN/webhooks
     body:
       encoding: US-ASCII
       string: ''
