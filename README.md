@@ -8,9 +8,11 @@ Requires Ruby 2.2.3 and Postgres.
 
 Alki uses the following environment variables for configuration:
 
-- TRELLO_KEY, TRELLO_SECRET for communicating with the Trello API. These can be obtained [here](https://trello.com/app-key).
+- TRELLO_KEY, TRELLO_SECRET for communicating with the Trello API.
 - SECRET for the cookie secret.
 - DATABASE_URL to connect to the Postgres database.
+
+A sample .envrc file is available [here](https://drive.google.com/open?id=0ByzPAU4fK2-EZTJFMVdsM1gweWc).
 
 ### Database
 
