@@ -2,41 +2,37 @@ require_relative "trello"
 
 module Alki
   module Models
-    class TrelloModel
-      def self.trello_attr(*attrs)
-        attrs.each do |attr|
-          define_method("trello_#{attr}") do
-            self.raw[attr.to_s]
-          end
-        end
-      end
-
+    class Board
       attr_reader :raw
 
       def initialize(raw:, trello:)
         @raw, @trello = raw, trello
       end
 
+      def id
+        self.raw["id"]
+      end
+
+      def name
+        self.raw["name"]
+      end
+
+      def actions
+        trello.boards_actions(self.id)
+      end
+
+      def cards
+        trello.boards_cards(self.id)
+      end
+
+      def lists
+        trello.boards_lists(self.id)
+      end
+
       private
 
       def trello
         @trello
-      end
-    end
-
-    class Board < TrelloModel
-      trello_attr :id, :name
-
-      def actions
-        trello.boards_actions(self.trello_id)
-      end
-
-      def cards
-        trello.boards_cards(self.trello_id)
-      end
-
-      def lists
-        trello.boards_lists(self.trello_id)
       end
     end
 
