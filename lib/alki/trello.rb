@@ -69,6 +69,10 @@ module Alki
         self.conn.get("boards/#{board_id}").body
       end
 
+      def boards_actions(board_id)
+        self.conn.get("boards/#{board_id}/actions").body
+      end
+
       def boards_cards(board_id)
         self.conn.get("boards/#{board_id}/cards").body
       end

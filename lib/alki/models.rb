@@ -4,11 +4,14 @@ module Alki
   module Models
 
     class Card
-      attr_reader :card_id, :name, :list_id
+      attr_reader :card_id, :name, :list_id, :actions
 
-      def initialize(card_id:, name:, list_id:, trello:)
-        @card_id, @name, @list_id, @trello = card_id, name, list_id, trello
+      def initialize(card_id:, name:, list_id:, actions:, trello:)
+        @card_id, @name, @list_id, @actions, @trello = card_id, name, list_id, actions, trello
+      end
 
+      def last_moved
+        actions.map {|action| Time.parse(action["date"]) }.max
       end
     end
 
@@ -20,8 +23,20 @@ module Alki
       end
 
       def cards
+        cards_ids_to_actions = Hash.new {|h,k| h[k] = [] }
+
+        actions = trello.boards_actions(self.board_id)
+        actions.select! do |action|
+          action["type"] == "createCard" || (action["type"] == "updateCard" && action["data"].has_key?("listAfter"))
+        end
+
+        actions.each do |action|
+          id = action["data"]["card"]["id"]
+          cards_ids_to_actions[id] << action
+        end
+
         trello.boards_cards(self.board_id).map do |card|
-          Card.new(card_id: card["id"], name: card["name"], list_id: card["idList"], trello: trello)
+          Card.new(card_id: card["id"], name: card["name"], list_id: card["idList"], actions: cards_ids_to_actions[card["id"]], trello: trello)
         end
       end
 

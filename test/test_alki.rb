@@ -80,7 +80,7 @@ module Alki
         assert_includes last_response.body, name
       end
 
-      assert_includes last_response.body, "Alice (Waiting for RPI)"
+      assert_includes last_response.body, "Alice (Waiting for RPI since 2016-01-12 01:02)"
     end
   end
 end
