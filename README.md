@@ -29,9 +29,6 @@ cf push
 
 ```
 bundle install
-
-createdb alki_test
-DATABASE_URL=postgres://localhost/alki_test rake db:migrate
 ```
 
 To run the development server:
@@ -41,6 +38,15 @@ If postgres is running: `rerun --no-notify -- rackup`
 Otherwise, `foreman start -f Procfile.dev`
 
 ### Running the tests
+
+Database setup:
+
+```
+createdb alki_test
+DATABASE_URL=postgres://localhost/alki_test rake db:migrate
+```
+
+To actually run the tests:
 
 ```
 rake
