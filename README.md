@@ -56,4 +56,4 @@ rake
 
 ### Jasmine
 
-Open file://<repo root>/jasmine/SpecRunner.html in a browser.
+Open file://<repo root>/test/jasmine/SpecRunner.html in a browser.
