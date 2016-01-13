@@ -2,29 +2,6 @@ require_relative "test_helper"
 
 require "alki/models"
 
-class TestCard < Minitest::Test
-  def setup
-    # @card = Models::Card.new(card_id: "some_card_id", name: "Alice", list_id: "a_list_id", trello: nil)
-  end
-
-  def test_wait_time
-    card = Models::Card.new(raw: { "id" => "some_card_id", "name" => "Alice", "idList" => "a_list_id" }, trello: nil)
-    card.actions = [{ "type" => "createCard",
-                      "data" => { "card" => { "id" => "1" } },
-                      "date" => "2016-01-12T01:00:05.737Z" },
-                    { "type" => "updateCard",
-                      "data" => { "card" => { "id" => "1" },
-                                  "listAfter" => { "id"=>"5" }},
-                      "date" => "2016-01-14T01:00:05.737Z" },
-                    { "type" => "updateCard",
-                      "data" => { "card" => { "id" => "1" },
-                                  "listAfter" => { "id"=>"10" }},
-                      "date" => "2016-01-13T01:00:05.737Z" }]
-
-    assert_equal Time.parse("2016-01-14T01:00:05.737Z"), card.last_moved
-  end
-end
-
 class TestBoard < Minitest::Test
   def setup
     @trello = Object.new
@@ -49,8 +26,5 @@ class TestBoard < Minitest::Test
     cards = @board.cards
 
     assert_equal 3, cards.size
-    assert_equal actions.values_at(0), cards[0].actions
-
-    assert_equal actions.values_at(1, 2), cards[1].actions
   end
 end

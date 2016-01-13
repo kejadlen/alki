@@ -27,38 +27,16 @@ module Alki
     class Board < TrelloModel
       trello_attr :id, :name
 
-      def cards
-        actions = trello.boards_actions(self.trello_id)
-                        .group_by {|action| action["data"]["card"]["id"] }
+      def actions
+        trello.boards_actions(self.trello_id)
+      end
 
-        trello.boards_cards(self.trello_id).map do |card|
-          card = Card.new(raw: card, trello: trello)
-          card.actions = actions[card.trello_id]
-          card
-        end
+      def cards
+        trello.boards_cards(self.trello_id)
       end
 
       def lists
         trello.boards_lists(self.trello_id)
-      end
-    end
-
-    class Card < TrelloModel
-      trello_attr :id, :name
-      attr_accessor :actions
-
-      def initialize(*)
-        super
-
-        @actions = []
-      end
-
-      def last_moved
-        actions.map {|action| Time.parse(action["date"]) }.max
-      end
-
-      def trello_list_id
-        self.raw["idList"]
       end
     end
 

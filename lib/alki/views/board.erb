@@ -1,6 +1,6 @@
 <h1><%= board.trello_name %></h1>
 <ul>
   <% cards.each do |card| %>
-    <li><%= card[:name] %> (<%= card[:list_name] %> since <%= card[:last_moved] %>)</li>
+    <li><%= card[:name] %> (<%= card[:list_name] %>)</li>
   <% end %>
 </ul>

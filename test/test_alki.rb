@@ -79,6 +79,6 @@ class TestAlki < Minitest::Test
       assert_includes last_response.body, name
     end
 
-    assert_includes last_response.body, "Alice (Waiting for RPI since 2016-01-12 01:02)"
+    assert_includes last_response.body, "Alice (Waiting for RPI)"
   end
 end
