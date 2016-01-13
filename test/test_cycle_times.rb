@@ -5,7 +5,6 @@ class TestCycleTimes < Minitest::Test
   DAYS = 24*60*60
 
   def test_cycle_times
-    cards = [Models::Card.new(raw: { "id" => "1" }, trello: nil) ]
     actions = [
         { "type" => "createCard", "date" => "2016-01-01T01:00:00.000Z", "data" => { "card" => { "id" => "1"} } },
         { "type" => "updateCard", "date" => "2016-01-02T01:00:00.000Z", "data" => { "old" => { "idList" => "some_list_id" },
@@ -17,7 +16,7 @@ class TestCycleTimes < Minitest::Test
                                                                                     "card" => { "id" => "1"} } },
     ]
 
-    ct = CycleTimes.new(cards: cards, actions: actions)
+    ct = CycleTimes.new(actions: actions)
     assert_equal 1*DAYS, ct.card("1")["some_list_id"]
     assert_equal 2*DAYS, ct.card("1")["another_list_id"]
     assert_equal 3*DAYS, ct.card("1")["yet_another_list_id"]

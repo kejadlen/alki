@@ -1,10 +1,10 @@
 module Alki
   class CycleTimes
-    attr_reader :cards, :actions
+    attr_reader :actions
     attr_reader :data
 
-    def initialize(cards:, actions:)
-      @cards, @actions = cards, actions
+    def initialize(actions:)
+      @actions = actions
       @data = {}
 
       calculate!
