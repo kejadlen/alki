@@ -2,6 +2,28 @@ require_relative "trello"
 
 module Alki
   module Models
+    class TrelloModel
+      def self.trello_attr(*attrs)
+        attrs.each do |attr|
+          define_method("trello_#{attr}") do
+            self.raw[attr.to_s]
+          end
+        end
+      end
+
+      attr_reader :raw
+
+      def initialize(raw:, trello:)
+        @raw, @trello = raw, trello
+      end
+
+      private
+
+      def trello
+        @trello
+      end
+    end
+
     class Card
       attr_reader :card_id, :name, :list_id, :actions
 
@@ -14,41 +36,23 @@ module Alki
       end
     end
 
-    class Board
-      attr_reader :raw
-
-      def initialize(raw:, trello:)
-        @raw, @trello = raw, trello
-      end
-
-      def board_id
-        self.raw["id"]
-      end
-
-      def name
-        self.raw["name"]
-      end
+    class Board < TrelloModel
+      trello_attr :id, :name
 
       def cards
         cards_ids_to_actions = Hash.new {|h,k| h[k] = [] }
-        trello.boards_actions(self.board_id).each do |action|
+        trello.boards_actions(self.trello_id).each do |action|
           id = action["data"]["card"]["id"]
           cards_ids_to_actions[id] << action
         end
 
-        trello.boards_cards(self.board_id).map do |card|
+        trello.boards_cards(self.trello_id).map do |card|
           Card.new(card_id: card["id"], name: card["name"], list_id: card["idList"], actions: cards_ids_to_actions[card["id"]], trello: trello)
         end
       end
 
       def lists
-        trello.boards_lists(self.board_id)
-      end
-
-      private
-
-      def trello
-        @trello
+        trello.boards_lists(self.trello_id)
       end
     end
 
