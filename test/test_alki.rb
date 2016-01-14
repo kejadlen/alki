@@ -89,7 +89,7 @@ class TestAlki < Minitest::Test
 
     assert last_response.ok?
     assert_includes last_response.body, <<-HTML
-    <td>Steve Gravrock</td>
+    <th scope=\"row\">Steve Gravrock</th>
             <td>&lt; 1 day</td>
             <td>2 days</td>
             <td>&lt; 1 day</td>
@@ -103,7 +103,7 @@ class TestAlki < Minitest::Test
       end
     end
 
-    assert_includes last_response.body, "<td>Kurtis Seebaldt</td>\n            <td>3 days</td>"
+    assert_includes last_response.body, "<th scope=\"row\">Kurtis Seebaldt</th>\n            <td>3 days</td>"
   end
 
   def test_aggregate_stats
@@ -113,7 +113,7 @@ class TestAlki < Minitest::Test
       end
     end
 
-    assert_includes last_response.body, "<td>Average</td>\n        <td>&lt; 1 day</td>"
+    assert_includes last_response.body, "<th scope=\"row\">Average</th>\n        <td>&lt; 1 day</td>"
   end
 
   def test_api

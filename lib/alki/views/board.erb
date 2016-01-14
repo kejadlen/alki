@@ -1,20 +1,20 @@
 <h1><%= board_presenter.name %></h1>
-<table>
+<table class="table table-hover">
   <tr>
     <th>Name</th>
     <% board_presenter.lists.each do |list| %>
         <th><%= board_presenter.column_names[list["id"]] %></th>
     <% end %>
   </tr>
-  <tr>
-    <td>Average</td>
+  <tr class="active">
+    <th scope="row">Average</th>
     <% board_presenter.lists.each do |list| %>
         <td><%= board_presenter.averages[list["id"]] %></td>
     <% end %>
   </tr>
-  <% board_presenter.card_durations.each do |card_id, durations| %>
+  <% board_presenter.card_durations.each do |card_name, durations| %>
       <tr>
-        <td><%= card_id %></td>
+        <th scope="row"><%= card_name %></th>
         <% board_presenter.lists.each do |list| %>
             <td><%= durations[list["id"]] %></td>
         <% end %>
