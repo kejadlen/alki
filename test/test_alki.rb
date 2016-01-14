@@ -113,7 +113,7 @@ class TestAlki < Minitest::Test
       end
     end
 
-    assert_includes last_response.body, "<td>Average</td>\n            <td>&lt; 1 day</td>"
+    assert_includes last_response.body, "<td>Average</td>\n        <td>&lt; 1 day</td>"
   end
 
   def test_api

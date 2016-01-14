@@ -1,8 +1,15 @@
 <h1><%= board_presenter.name %></h1>
 <table>
   <tr>
+    <th>Name</th>
     <% board_presenter.column_names.each do |column_name| %>
       <th><%= column_name %></th>
+    <% end %>
+  </tr>
+  <tr>
+    <td>Average</td>
+    <% board_presenter.averages.each do |_, duration| %>
+        <td><%= duration %></td>
     <% end %>
   </tr>
   <% board_presenter.card_durations.each do |card_id, durations| %>

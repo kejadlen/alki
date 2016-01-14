@@ -3,10 +3,12 @@ module Alki
     class Board
       SECONDS_PER_DAY = 24*60*60
 
-      attr_reader :board
+      attr_reader :board, :lists
 
       def initialize(board)
         @board = board
+
+        @lists = self.board.lists.sort_by { |list| list["pos"] }
       end
 
       def name
@@ -14,7 +16,7 @@ module Alki
       end
 
       def column_names
-        ["Name"] + self.board.lists.sort_by { |list| list["pos"] }.map { |list| list["name"] }
+        self.lists.map { |list| list["name"] }
       end
 
       def card_durations
@@ -23,7 +25,6 @@ module Alki
         cards = Hash[cards.map { |card| [card["id"], card] }]
 
         cycle_times = self.board.card_list_durations
-        cycle_times["average"] = self.board.averages
 
         current_lists = Hash[cards.values.map { |card| [card["id"], card["idList"]] }]
         self.board.last_actions.each do |card_id, date|
@@ -35,6 +36,12 @@ module Alki
             card_name = cards[card_id]["name"]
             card_durations[card_name][list_id] = format_duration(duration)
           end
+        end
+      end
+
+      def averages
+        self.board.averages.each.with_object({}) do |(list_id, duration), averages|
+          averages[list_id] = format_duration(duration)
         end
       end
 

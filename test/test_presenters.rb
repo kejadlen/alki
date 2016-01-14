@@ -23,29 +23,29 @@ class TestBoardPresenter < Minitest::Test
   end
 
   def test_column_names
-    assert_equal ["Name", "Waiting for RPI", "Waiting for Interview"], @board_presenter.column_names
+    assert_equal ["Waiting for RPI", "Waiting for Interview"], @board_presenter.column_names
   end
 
   def test_card_durations
-    cd = nil
+    card_durations = nil
     Time.stub :now, Time.parse("2016-01-15T19:20:55.586Z") do
-      cd = @board_presenter.card_durations
+      card_durations = @board_presenter.card_durations
     end
 
-    assert_equal "< 1 day", cd["card one"]["some_list_id"]
-    assert_equal "1 day", cd["card one"]["another_list_id"]
-    assert_equal "2 days", cd["card one"]["yet_another_list_id"]
-    assert_equal "2 days", cd["card two"]["some_list_id"]
+    assert_equal "< 1 day", card_durations["card one"]["some_list_id"]
+    assert_equal "1 day", card_durations["card one"]["another_list_id"]
+    assert_equal "2 days", card_durations["card one"]["yet_another_list_id"]
+    assert_equal "2 days", card_durations["card two"]["some_list_id"]
   end
 
   def test_averages
-    cd = nil
+    averages = nil
     Time.stub :now, Time.parse("2016-01-16T19:20:55.586Z") do
-      cd = @board_presenter.card_durations
+      averages = @board_presenter.averages
     end
 
-    assert_equal "< 1 day", cd["Average"]["some_list_id"]
-    assert_equal "1 day", cd["Average"]["another_list_id"]
-    assert_equal "2 days", cd["Average"]["yet_another_list_id"]
+    assert_equal "< 1 day", averages["some_list_id"]
+    assert_equal "1 day", averages["another_list_id"]
+    assert_equal "2 days", averages["yet_another_list_id"]
   end
 end
