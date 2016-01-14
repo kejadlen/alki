@@ -81,22 +81,37 @@ module Alki
       r.redirect "auth/sign_in" unless user
 
       r.root do
-        view "index", locals: { user: user }
+        view "index", locals: {user: user}
       end
 
       r.on "boards" do
         r.is do
-          boards_to_webhooks = Hash[user.webhooks.map {|webhook| [webhook["idModel"], webhook["id"]] }]
-          boards = user.boards.map {|board| { id: board["id"],
+          boards_to_webhooks = Hash[user.webhooks.map { |webhook| [webhook["idModel"], webhook["id"]] }]
+          boards = user.boards.map { |board| {id: board["id"],
                                               webhook_id: boards_to_webhooks[board["id"]],
-                                              name: board["name"] }}
+                                              name: board["name"]} }
 
-          view "boards", locals: { boards: boards}
+          view "boards", locals: {boards: boards}
         end
 
         r.get ":board_id" do |board_id|
           board_presenter = Presenters::Board.new(user.board(board_id))
-          view "board", locals: { board_presenter: board_presenter }
+          view "board", locals: {board_presenter: board_presenter}
+        end
+      end
+
+      r.on "api" do
+        r.get "boards/:board_id" do |board_id|
+          board = user.board(board_id)
+          lists = board.lists
+          averages = board.averages
+
+          data = lists.each.with_object({lists: []}) do |list, data|
+            data[:lists] << {id: list["id"], name: list["name"], average_duration: averages[list["id"]]}
+          end
+
+          data[:board_id] = board_id
+          JSON.dump(data)
         end
       end
 

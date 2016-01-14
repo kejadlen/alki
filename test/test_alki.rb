@@ -38,7 +38,7 @@ class TestAlki < Minitest::Test
 
   def test_boards
     VCR.use_cassette("test_boards") do
-      get "boards", {}, "rack.session" => { user_id: @user.id }
+      get "boards", {}, "rack.session" => {user_id: @user.id}
     end
 
     assert last_response.ok?
@@ -68,14 +68,14 @@ class TestAlki < Minitest::Test
 
   def test_board
     VCR.use_cassette("test_board") do
-      get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => { user_id: @user.id }
+      get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user.id}
     end
 
     assert last_response.ok?
 
     assert_includes last_response.body, "Hiring"
 
-    [ "Kurtis Seebaldt", "Alpha Chen", "Steve Gravrock", "Augustus Lidaka" ].each do |name|
+    ["Kurtis Seebaldt", "Alpha Chen", "Steve Gravrock", "Augustus Lidaka"].each do |name|
       assert_includes last_response.body, name
     end
   end
@@ -83,7 +83,7 @@ class TestAlki < Minitest::Test
   def test_cycle_times
     Time.stub :now, Time.parse("2016-01-15") do
       VCR.use_cassette("test_board") do
-        get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => { user_id: @user.id }
+        get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user.id}
       end
     end
 
@@ -99,7 +99,7 @@ class TestAlki < Minitest::Test
   def test_last_actions
     Time.stub :now, Time.parse("2016-01-15") do
       VCR.use_cassette("test_board") do
-        get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => { user_id: @user.id }
+        get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user.id}
       end
     end
 
@@ -109,11 +109,25 @@ class TestAlki < Minitest::Test
   def test_aggregate_stats
     Time.stub :now, Time.parse("2017-01-15") do
       VCR.use_cassette("test_board") do
-        get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => { user_id: @user.id }
+        get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user.id}
       end
     end
 
     assert_includes last_response.body, "<td>Average</td>\n            <td>&lt; 1 day</td>"
+  end
 
+  def test_api
+    Time.stub :now, Time.parse("2017-01-15") do
+      VCR.use_cassette("test_board") do
+        get "api/boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user.id}
+      end
+    end
+
+    response = JSON.parse(last_response.body)
+
+    assert_equal "56903b47301bbf79e2a0b62d", response["board_id"]
+
+    list_datum = { "id" => "56903b5cf8dde35f827c63ae", "name" => "Waiting for RPI", "average_duration" => 177.29424999999998 }
+    assert_includes response["lists"], list_datum
   end
 end
