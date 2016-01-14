@@ -29,6 +29,16 @@ module Alki
         ]
       end
 
+      def last_actions
+        Hash[
+            self.actions.group_by { |action| action["data"]["card"]["id"] }
+                        .map do |card_id, actions|
+              date = actions.map {|action| action["date"] }.max
+              [card_id, date]
+            end
+        ]
+      end
+
       # Attributes
 
       def id
@@ -42,7 +52,9 @@ module Alki
       # Trello
 
       def actions
-        trello.boards_actions(self.id)
+        return @actions if defined?(@actions)
+
+        @actions = trello.boards_actions(self.id)
       end
 
       def cards

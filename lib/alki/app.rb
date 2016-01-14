@@ -97,6 +97,11 @@ module Alki
           lists = Hash[board.lists.sort_by {|list| list["pos"] }.map {|list| [list["id"], list["name"]] }]
           cycle_times = board.cycle_times
 
+          current_lists = Hash[cards.map {|card| [card["id"], card["idList"]] }]
+          board.last_actions.each do |card_id, date|
+            cycle_times[card_id][current_lists[card_id]] = Time.now - Time.parse(date)
+          end
+
           view "board", locals: { board: board, cards: cards, lists: lists, cycle_times: cycle_times }
         end
       end

@@ -81,16 +81,27 @@ class TestAlki < Minitest::Test
   end
 
   def test_cycle_times
-    VCR.use_cassette("test_cycle_times") do
-      get "boards/some_board_id", {}, "rack.session" => { user_id: @user.id }
+    Time.stub :now, Time.parse("2016-01-13") do
+      VCR.use_cassette("test_cycle_times") do
+        get "boards/some_board_id", {}, "rack.session" => { user_id: @user.id }
+      end
     end
-
-    assert last_response.ok?
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          assert last_response.ok?
     assert_includes last_response.body, <<-HTML
     <td>Steve Gravrock</td>
             <td>2.453</td>
-            <td>1983.085</td>
+            <td>36008.221</td>
             <td>73543.115</td>
-HTML
+    HTML
+  end
+
+  def test_last_actions
+    Time.stub :now, Time.parse("2016-01-13") do
+      VCR.use_cassette("test_cycle_times") do
+        get "boards/some_board_id", {}, "rack.session" => { user_id: @user.id }
+      end
+    end
+
+    assert_includes last_response.body, "<td>Kurtis Seebaldt</td>\n            <td>111458.66</td>"
   end
 end
