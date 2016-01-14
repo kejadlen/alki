@@ -2,21 +2,21 @@
 <table>
   <tr>
     <th>Name</th>
-    <% board_presenter.column_names.each do |column_name| %>
-      <th><%= column_name %></th>
+    <% board_presenter.lists.each do |list| %>
+        <th><%= board_presenter.column_names[list["id"]] %></th>
     <% end %>
   </tr>
   <tr>
     <td>Average</td>
-    <% board_presenter.averages.each do |_, duration| %>
-        <td><%= duration %></td>
+    <% board_presenter.lists.each do |list| %>
+        <td><%= board_presenter.averages[list["id"]] %></td>
     <% end %>
   </tr>
   <% board_presenter.card_durations.each do |card_id, durations| %>
       <tr>
         <td><%= card_id %></td>
-        <% durations.each do |_, duration| %>
-            <td><%= duration %></td>
+        <% board_presenter.lists.each do |list| %>
+            <td><%= durations[list["id"]] %></td>
         <% end %>
       </tr>
   <% end %>

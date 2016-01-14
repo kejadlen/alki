@@ -5,8 +5,8 @@ require "alki/presenters"
 class TestBoardPresenter < Minitest::Test
   def setup
     board = OpenStruct.new(
-        lists: [{"name" => "Waiting for RPI"},
-                {"name" => "Waiting for Interview"}],
+        lists: [{"name" => "Waiting for RPI", "id" => "123"},
+                {"name" => "Waiting for Interview", "id" => "789"}],
         card_list_durations: {"1" => {"some_list_id" => 1*60*60,
                                       "another_list_id" => 30*60*60,
                                       "yet_another_list_id" => 50*60*60},
@@ -23,7 +23,8 @@ class TestBoardPresenter < Minitest::Test
   end
 
   def test_column_names
-    assert_equal ["Waiting for RPI", "Waiting for Interview"], @board_presenter.column_names
+    expected = {"123" => "Waiting for RPI", "789" => "Waiting for Interview"}
+    assert_equal expected, @board_presenter.column_names
   end
 
   def test_card_durations

@@ -16,7 +16,7 @@ module Alki
       end
 
       def column_names
-        self.lists.map { |list| list["name"] }
+        Hash[self.lists.map { |list| [list["id"], list["name"]] }]
       end
 
       def card_durations
