@@ -2,6 +2,7 @@ module Alki
   module Presenters
     class Board
       SECONDS_PER_DAY = 24*60*60
+
       attr_reader :board
 
       def initialize(board)
@@ -31,17 +32,23 @@ module Alki
 
         cycle_times.each.with_object(Hash.new { |h, k| h[k] = {} }) do |(card_id, row), card_durations|
           row.each.with_object(card_durations) do |(list_id, duration), card_durations|
-            days = duration / SECONDS_PER_DAY
             card_name = cards[card_id]["name"]
-            card_durations[card_name][list_id] = case days.floor
-                                                   when 0
-                                                     "< 1 day"
-                                                   when 1
-                                                     "1 day"
-                                                   else
-                                                     "#{days.floor} days"
-                                                 end
+            card_durations[card_name][list_id] = format_duration(duration)
           end
+        end
+      end
+
+      private
+
+      def format_duration(duration)
+        days = duration / SECONDS_PER_DAY
+        case days.floor
+          when 0
+            "< 1 day"
+          when 1
+            "1 day"
+          else
+            "#{days.floor} days"
         end
       end
     end
