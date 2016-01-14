@@ -10,7 +10,7 @@
       <tr>
         <td><%= card["name"] %></td>
         <% lists.each do |list_id, _| %>
-            <td><%= cycle_times[card["id"]][list_id] %></td>
+            <td><%= display_times[card["id"]][list_id] %></td>
         <% end %>
       </tr>
   <% end %>

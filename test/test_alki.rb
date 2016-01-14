@@ -81,7 +81,7 @@ class TestAlki < Minitest::Test
   end
 
   def test_cycle_times
-    Time.stub :now, Time.parse("2016-01-13") do
+    Time.stub :now, Time.parse("2016-01-15") do
       VCR.use_cassette("test_board") do
         get "boards/some_board_id", {}, "rack.session" => { user_id: @user.id }
       end
@@ -89,19 +89,19 @@ class TestAlki < Minitest::Test
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           assert last_response.ok?
     assert_includes last_response.body, <<-HTML
     <td>Mallory</td>
-            <td>2.453</td>
-            <td>36008.221</td>
-            <td>73543.115</td>
+            <td>&lt; 1 day</td>
+            <td>2 days</td>
+            <td>&lt; 1 day</td>
     HTML
   end
 
   def test_last_actions
-    Time.stub :now, Time.parse("2016-01-13") do
+    Time.stub :now, Time.parse("2016-01-15") do
       VCR.use_cassette("test_board") do
         get "boards/some_board_id", {}, "rack.session" => { user_id: @user.id }
       end
     end
 
-    assert_includes last_response.body, "<td>Alice</td>\n            <td>111458.66</td>"
+    assert_includes last_response.body, "<td>Alice</td>\n            <td>3 days</td>"
   end
 end

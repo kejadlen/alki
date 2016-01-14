@@ -6,6 +6,8 @@ require_relative "models"
 require_relative "trello"
 
 module Alki
+  SECONDS_PER_DAY = 24*60*60
+
   class App < Roda
     use Rack::Session::Cookie, :secret => ENV["SECRET"]
 
@@ -102,7 +104,21 @@ module Alki
             cycle_times[card_id][current_lists[card_id]] = Time.now - Time.parse(date)
           end
 
-          view "board", locals: { board: board, cards: cards, lists: lists, cycle_times: cycle_times }
+          display_times = cycle_times.each.with_object(Hash.new {|h,k| h[k] = {}}) do |(card_id, row), display_times|
+            row.each.with_object(display_times) do |(list_id, duration), display_times|
+              days = duration / SECONDS_PER_DAY
+              display_times[card_id][list_id] = case days.floor
+                                                  when 0
+                                                    "< 1 day"
+                                                  when 1
+                                                    "1 day"
+                                                  else
+                                                    "#{days.floor} days"
+                                                end
+            end
+          end
+
+          view "board", locals: { board: board, cards: cards, lists: lists, display_times: display_times }
         end
       end
 
