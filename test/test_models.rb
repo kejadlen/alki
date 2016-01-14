@@ -19,7 +19,7 @@ class TestBoard < Minitest::Test
                                                                                       "list" => { "id" => "yet_another_list_id" },
                                                                                       "card" => { "id" => "1"} } },
           { "type" => "createCard", "date" => "2016-01-01T01:00:00.000Z", "data" => { "card" => { "id" => "2"} } },
-          { "type" => "updateCard", "date" => "2016-01-02T01:00:00.000Z", "data" => { "old" => { "idList" => "some_list_id" },
+          { "type" => "updateCard", "date" => "2016-01-03T01:00:00.000Z", "data" => { "old" => { "idList" => "some_list_id" },
                                                                                       "card" => { "id" => "2"} } },
       ]
     end
@@ -33,7 +33,11 @@ class TestBoard < Minitest::Test
   end
 
   def test_last_actions
-    la = @board.last_actions
-    assert_equal "2016-01-02T01:00:00.000Z", la["2"]
+    assert_equal "2016-01-03T01:00:00.000Z", @board.last_actions["2"]
+  end
+
+  def test_averages
+    assert_equal 2*DAYS, @board.averages["another_list_id"]
+    assert_equal 1.5*DAYS, @board.averages["some_list_id"]
   end
 end

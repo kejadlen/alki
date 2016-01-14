@@ -3,6 +3,7 @@ require "tilt/erubis"
 
 require_relative "db"
 require_relative "models"
+require_relative "presenters"
 require_relative "trello"
 
 module Alki
@@ -94,31 +95,8 @@ module Alki
         end
 
         r.get ":board_id" do |board_id|
-          board = user.board(board_id)
-          cards = board.cards
-          lists = Hash[board.lists.sort_by {|list| list["pos"] }.map {|list| [list["id"], list["name"]] }]
-          cycle_times = board.cycle_times
-
-          current_lists = Hash[cards.map {|card| [card["id"], card["idList"]] }]
-          board.last_actions.each do |card_id, date|
-            cycle_times[card_id][current_lists[card_id]] = Time.now - Time.parse(date)
-          end
-
-          display_times = cycle_times.each.with_object(Hash.new {|h,k| h[k] = {}}) do |(card_id, row), display_times|
-            row.each.with_object(display_times) do |(list_id, duration), display_times|
-              days = duration / SECONDS_PER_DAY
-              display_times[card_id][list_id] = case days.floor
-                                                  when 0
-                                                    "< 1 day"
-                                                  when 1
-                                                    "1 day"
-                                                  else
-                                                    "#{days.floor} days"
-                                                end
-            end
-          end
-
-          view "board", locals: { board: board, cards: cards, lists: lists, display_times: display_times }
+          board_presenter = Presenters::Board.new(user.board(board_id))
+          view "board", locals: { board_presenter: board_presenter }
         end
       end
 

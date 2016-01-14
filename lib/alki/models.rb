@@ -39,6 +39,21 @@ module Alki
         ]
       end
 
+      def averages
+        list_durations = Hash.new {|h,k| h[k] = [] }
+        self.cycle_times.values.each do |hash|
+          hash.each do |list_id, duration|
+            list_durations[list_id] << duration
+          end
+        end
+
+        Hash[
+          list_durations.map do |list_id, durations|
+            [list_id, durations.inject(:+) / durations.length]
+          end
+        ]
+      end
+
       # Attributes
 
       def id

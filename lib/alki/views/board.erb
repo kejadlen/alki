@@ -1,18 +1,16 @@
-<h1><%= board.name %></h1>
+<h1><%= board_presenter.name %></h1>
 <table>
   <tr>
-    <th>Name</th>
-    <% lists.each do |_, list_name| %>
-      <th><%= list_name %></th>
+    <% board_presenter.column_names.each do |column_name| %>
+      <th><%= column_name %></th>
     <% end %>
   </tr>
-  <% cards.each do |card| %>
+  <% board_presenter.card_durations.each do |card_id, durations| %>
       <tr>
-        <td><%= card["name"] %></td>
-        <% lists.each do |list_id, _| %>
-            <td><%= display_times[card["id"]][list_id] %></td>
+        <td><%= card_id %></td>
+        <% durations.each do |_, duration| %>
+            <td><%= duration %></td>
         <% end %>
       </tr>
   <% end %>
-
 </table>
