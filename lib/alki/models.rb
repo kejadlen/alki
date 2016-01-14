@@ -30,13 +30,11 @@ module Alki
       end
 
       def last_actions
-        Hash[
-            self.actions.group_by { |action| action["data"]["card"]["id"] }
-                        .map do |card_id, actions|
-              date = actions.map {|action| action["date"] }.max
-              [card_id, date]
-            end
-        ]
+        self.actions
+            .group_by { |action| action["data"]["card"]["id"] }
+            .each.with_object(Hash.new { |h, k| h[k] = [] }) do |(card_id, actions), last_actions|
+          last_actions[card_id] = actions.map { |action| action["date"] }.max
+        end
       end
 
       def averages
