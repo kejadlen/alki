@@ -4,35 +4,26 @@ require "alki/presenters"
 
 class TestBoardPresenter < Minitest::Test
   def setup
-    board = Object.new
-    def board.lists
-      [{"name"=>"Waiting for RPI"},
-       {"name"=>"Waiting for Interview"}]
-    end
-    def board.cycle_times
-      { "1" => { "some_list_id" => 1*60*60,
-                 "another_list_id" => 30*60*60,
-                 "yet_another_list_id" => 50*60*60 },
-        "2" => {} }
-    end
-    def board.last_actions
-      { "2" => "2016-01-13T19:20:55.586Z" }
-    end
-    def board.cards
-      [{ "id" => "1", "name" => "card one", "idList" => "foobar" },
-       { "id" => "2", "name" => "card two", "idList" => "some_list_id" }]
-    end
-    def board.averages
-      { "some_list_id" => 20*60*60,
-        "another_list_id" => 30*60*60,
-        "yet_another_list_id" => 50*60*60 }
-    end
+    board = OpenStruct.new(
+        lists: [{"name" => "Waiting for RPI"},
+                {"name" => "Waiting for Interview"}],
+        cycle_times: {"1" => {"some_list_id" => 1*60*60,
+                              "another_list_id" => 30*60*60,
+                              "yet_another_list_id" => 50*60*60},
+                      "2" => {}},
+        last_actions: {"2" => "2016-01-13T19:20:55.586Z"},
+        cards: [{"id" => "1", "name" => "card one", "idList" => "foobar"},
+                {"id" => "2", "name" => "card two", "idList" => "some_list_id"}],
+        averages: {"some_list_id" => 20*60*60,
+                   "another_list_id" => 30*60*60,
+                   "yet_another_list_id" => 50*60*60},
+    )
 
     @board_presenter = Presenters::Board.new(board)
   end
 
   def test_column_names
-    assert_equal ["Name","Waiting for RPI", "Waiting for Interview"], @board_presenter.column_names
+    assert_equal ["Name", "Waiting for RPI", "Waiting for Interview"], @board_presenter.column_names
   end
 
   def test_card_durations
