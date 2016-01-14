@@ -10,7 +10,7 @@ class TestBoardPresenter < Minitest::Test
         card_list_durations: {"1" => {"some_list_id" => 1*60*60,
                                       "another_list_id" => 30*60*60,
                                       "yet_another_list_id" => 50*60*60},
-                              "2" => {}},
+                              "2" => {"some_list_id" => 0}},
         last_actions: {"2" => "2016-01-13T19:20:55.586Z"},
         cards: [{"id" => "1", "name" => "card one", "idList" => "foobar"},
                 {"id" => "2", "name" => "card two", "idList" => "some_list_id"}],

@@ -24,14 +24,14 @@ module Alki
         cards.unshift("id" => "average", "name" => "Average")
         cards = Hash[cards.map { |card| [card["id"], card] }]
 
-        cycle_times = self.board.card_list_durations
+        card_list_durations = self.board.card_list_durations
 
         current_lists = Hash[cards.values.map { |card| [card["id"], card["idList"]] }]
         self.board.last_actions.each do |card_id, date|
-          cycle_times[card_id][current_lists[card_id]] = Time.now - Time.parse(date)
+          card_list_durations[card_id][current_lists[card_id]] += Time.now - Time.parse(date)
         end
 
-        cycle_times.each.with_object(Hash.new { |h, k| h[k] = {} }) do |(card_id, row), card_durations|
+        card_list_durations.each.with_object(Hash.new { |h, k| h[k] = {} }) do |(card_id, row), card_durations|
           row.each.with_object(card_durations) do |(list_id, duration), card_durations|
             card_name = cards[card_id]["name"]
             card_durations[card_name][list_id] = format_duration(duration)
