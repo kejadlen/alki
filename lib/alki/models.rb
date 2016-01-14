@@ -12,10 +12,11 @@ module Alki
         @raw, @trello = raw, trello
       end
 
-      def cycle_times
+      def card_list_durations
         Hash[
-            self.actions.group_by { |action| action["data"]["card"]["id"] }
-                        .map do |card_id, actions|
+            self.actions
+                .group_by { |action| action["data"]["card"]["id"] }
+                .map do |card_id, actions|
               actions = Hash[
                   actions.sort_by { |action| action["date"] }
                          .each_cons(2)
@@ -38,17 +39,17 @@ module Alki
       end
 
       def averages
-        list_durations = Hash.new {|h,k| h[k] = [] }
-        self.cycle_times.values.each do |hash|
+        list_durations = Hash.new { |h, k| h[k] = [] }
+        self.card_list_durations.values.each do |hash|
           hash.each do |list_id, duration|
             list_durations[list_id] << duration
           end
         end
 
         Hash[
-          list_durations.map do |list_id, durations|
-            [list_id, durations.inject(:+) / durations.length]
-          end
+            list_durations.map do |list_id, durations|
+              [list_id, durations.inject(:+) / durations.length]
+            end
         ]
       end
 

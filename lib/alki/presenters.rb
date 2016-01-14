@@ -22,7 +22,7 @@ module Alki
         cards.unshift("id" => "average", "name" => "Average")
         cards = Hash[cards.map { |card| [card["id"], card] }]
 
-        cycle_times = self.board.cycle_times
+        cycle_times = self.board.card_list_durations
         cycle_times["average"] = self.board.averages
 
         current_lists = Hash[cards.values.map { |card| [card["id"], card["idList"]] }]

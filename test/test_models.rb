@@ -27,7 +27,7 @@ class TestBoard < Minitest::Test
   end
 
   def test_cycle_times
-    cycle_times = @board.cycle_times
+    cycle_times = @board.card_list_durations
     assert_equal 1*DAYS, cycle_times["1"]["some_list_id"]
     assert_equal 2*DAYS, cycle_times["1"]["another_list_id"]
     assert_equal 3*DAYS, cycle_times["1"]["yet_another_list_id"]
