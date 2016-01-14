@@ -13,21 +13,17 @@ module Alki
       end
 
       def card_list_durations
-        Hash[
-            self.actions
-                .group_by { |action| action["data"]["card"]["id"] }
-                .map do |card_id, actions|
-              actions = Hash[
-                  actions.sort_by { |action| action["date"] }
-                         .each_cons(2)
-                         .map do |action_1, action_2|
-                    list_id = action_2["data"]["old"]["idList"] || action_2["data"]["list"]["id"]
-                    [list_id, Time.parse(action_2["date"]) - Time.parse(action_1["date"])]
-                  end
-              ]
-              [card_id, actions]
-            end
-        ]
+        self.actions
+            .group_by { |action| action["data"]["card"]["id"] }
+            .each.with_object({}) do |(card_id, actions), card_list_durations|
+          list_durations = actions.sort_by { |action| action["date"] }
+                                  .each_cons(2)
+                                  .each.with_object({}) do |(action_1, action_2), list_durations|
+            list_id = action_2["data"]["old"]["idList"] || action_2["data"]["list"]["id"]
+            list_durations[list_id] = Time.parse(action_2["date"]) - Time.parse(action_1["date"])
+          end
+          card_list_durations[card_id] = list_durations
+        end
       end
 
       def last_actions
