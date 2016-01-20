@@ -86,9 +86,7 @@ module Alki
 
       r.on "boards" do
         r.is do
-          boards_to_webhooks = Hash[user.webhooks.map { |webhook| [webhook["idModel"], webhook["id"]] }]
           boards = user.boards.map { |board| {id: board["id"],
-                                              webhook_id: boards_to_webhooks[board["id"]],
                                               name: board["name"]} }
 
           view "boards", locals: {boards: boards}
