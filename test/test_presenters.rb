@@ -2,7 +2,7 @@ require_relative "test_helper"
 
 require "alki/presenters"
 
-class TestBoardPresenter < Minitest::Test
+class TestBoardPresenter < Alki::Test
   def setup
     board = OpenStruct.new(
         lists: [{"name" => "Waiting for RPI", "id" => "123"},

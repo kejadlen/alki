@@ -2,7 +2,7 @@ require_relative "test_helper"
 
 require "alki/models"
 
-class TestBoard < Minitest::Test
+class TestBoard < Alki::Test
   DAYS = 24*60*60
 
   def setup
@@ -43,7 +43,7 @@ class TestBoard < Minitest::Test
   end
 end
 
-class TestUser < Minitest::Test
+class TestUser < Alki::Test
 
   def test_hidden_lists
     user = Models::User.create(trello_id: "trelloid")

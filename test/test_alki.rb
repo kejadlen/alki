@@ -1,11 +1,11 @@
-require "minitest/autorun"
+require_relative "test_helper"
+
 require "rack/test"
 require "vcr"
 
 ENV["DATABASE_URL"] = "postgres://localhost/alki_test"
 ENV["SECRET"] = "aBadSecret"
 
-$LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
 require "alki/app"
 require "alki/models"
 
@@ -17,17 +17,11 @@ VCR.configure do |c|
   c.hook_into :faraday
 end
 
-class TestAlki < Minitest::Test
+class TestAlki < Alki::Test
   include Rack::Test::Methods
 
   def app
     App
-  end
-
-  def run(*args, &block)
-    DB.transaction(rollback: :always, auto_savepoint: true) do
-      super
-    end
   end
 
   def setup
