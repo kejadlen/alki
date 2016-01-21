@@ -10,10 +10,10 @@ require "alki/app"
 require "alki/models"
 
 Sequel.extension :migration
-Sequel::Migrator.run(Alki::DB, "db/migrations")
+Sequel::Migrator.run(Alki::DB, File.expand_path("../../db/migrations", __FILE__))
 
 VCR.configure do |c|
-  c.cassette_library_dir = 'test/vcr_cassettes'
+  c.cassette_library_dir = "test/vcr_cassettes"
   c.hook_into :faraday
 end
 
@@ -88,12 +88,7 @@ class TestAlki < Minitest::Test
     end
 
     assert last_response.ok?
-    assert_includes last_response.body, <<-HTML
-    <th scope=\"row\">Steve Gravrock</th>
-            <td>&lt; 1 day</td>
-            <td>2 days</td>
-            <td>&lt; 1 day</td>
-    HTML
+    assert_match /<th scope="row">Steve Gravrock<\/th>\s*<td>&lt; 1 day<\/td>\s*<td>2 days<\/td>\s*<td>&lt; 1 day<\/td>/, last_response.body
   end
 
   def test_last_actions
@@ -103,7 +98,7 @@ class TestAlki < Minitest::Test
       end
     end
 
-    assert_includes last_response.body, "<th scope=\"row\">Kurtis Seebaldt</th>\n            <td>3 days</td>"
+    assert_match /<th scope="row">Kurtis Seebaldt<\/th>\s*<td>3 days<\/td>/, last_response.body
   end
 
   def test_aggregate_stats
@@ -113,7 +108,7 @@ class TestAlki < Minitest::Test
       end
     end
 
-    assert_includes last_response.body, "<th scope=\"row\">Average</th>\n        <td>&lt; 1 day</td>"
+    assert_match /<th scope="row">Average<\/th>\s*<td>&lt; 1 day<\/td>/, last_response.body
   end
 
   def test_api
@@ -129,5 +124,14 @@ class TestAlki < Minitest::Test
 
     list_datum = { "id" => "56903b5cf8dde35f827c63ae", "name" => "Waiting for RPI", "average_duration" => 177.29424999999998 }
     assert_includes response["lists"], list_datum
+  end
+
+  def test_board_options
+    VCR.use_cassette("test_board") do
+      get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user.id}
+    end
+
+    assert_includes last_response.body, "<h2>Options</h2>"
+    assert_match /<input type="checkbox" value="56903b61281e96dd0ae060f2" \/>\s*<label>Waiting for Interview<\/label>/, last_response.body
   end
 end

@@ -11,6 +11,10 @@ module Alki
         @lists = self.board.lists.sort_by { |list| list["pos"] }
       end
 
+      def id
+        self.board.id
+      end
+
       def name
         self.board.name
       end

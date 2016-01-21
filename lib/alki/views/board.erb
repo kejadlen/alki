@@ -1,23 +1,41 @@
-<h1><%= board_presenter.name %></h1>
-<table class="table table-hover">
-  <tr>
-    <th>Name</th>
-    <% board_presenter.lists.each do |list| %>
-        <th><%= board_presenter.column_names[list["id"]] %></th>
-    <% end %>
-  </tr>
-  <tr class="active">
-    <th scope="row">Average</th>
-    <% board_presenter.lists.each do |list| %>
-        <td><%= board_presenter.averages[list["id"]] %></td>
-    <% end %>
-  </tr>
-  <% board_presenter.card_durations.each do |card_name, durations| %>
+<div class="row">
+  <div class="col-md-10">
+    <h1><%= board_presenter.name %></h1>
+
+    <table class="table table-hover">
       <tr>
-        <th scope="row"><%= card_name %></th>
+        <th>Name</th>
         <% board_presenter.lists.each do |list| %>
-            <td><%= durations[list["id"]] %></td>
+            <th><%= board_presenter.column_names[list["id"]] %></th>
         <% end %>
       </tr>
-  <% end %>
-</table>
+      <tr class="active">
+        <th scope="row">Average</th>
+        <% board_presenter.lists.each do |list| %>
+            <td><%= board_presenter.averages[list["id"]] %></td>
+        <% end %>
+      </tr>
+      <% board_presenter.card_durations.each do |card_name, durations| %>
+          <tr>
+            <th scope="row"><%= card_name %></th>
+            <% board_presenter.lists.each do |list| %>
+                <td><%= durations[list["id"]] %></td>
+            <% end %>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+
+  <div class="col-md-2">
+    <h2>Options</h2>
+    <h3>Ignored Lists</h3>
+    <form action="<%= board_presenter.id %>/options" method="post">
+      <% board_presenter.lists.each do |list| %>
+      <input type="checkbox" value="<%= list["id"] %>" />
+      <label><%= board_presenter.column_names[list["id"]] %></label>
+      <br />
+      <% end %>
+      <button type="submit">Update</button>
+    </form>
+  </div>
+</div>
