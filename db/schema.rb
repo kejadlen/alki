@@ -22,8 +22,8 @@ Sequel.migration do
 
     create_table(:hidden_lists) do
       primary_key :id
-      column :board_id, "integer", :null=>false
-      column :list_id, "integer", :null=>false
+      column :board_id, "text", :null=>false
+      column :list_id, "text", :null=>false
       column :created_at, "timestamp without time zone"
       column :updated_at, "timestamp without time zone"
       foreign_key :user_id, :users, :key=>[:id]

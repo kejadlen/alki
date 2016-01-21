@@ -46,7 +46,11 @@ end
 class TestUser < Minitest::Test
 
   def test_hidden_lists
-    user = Models::User.new
+    user = Models::User.create(trello_id: "trelloid")
     assert_empty user.hidden_lists
+
+    hidden_list = Models::HiddenList.new(board_id: "boardid", list_id: "listid")
+    user.add_hidden_list(hidden_list)
+    assert_equal 1, Models::HiddenList.where(user_id: user.id).count
   end
 end
