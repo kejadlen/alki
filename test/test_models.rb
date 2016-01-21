@@ -42,3 +42,11 @@ class TestBoard < Minitest::Test
     assert_equal 1.5*DAYS, @board.averages["some_list_id"]
   end
 end
+
+class TestUser < Minitest::Test
+
+  def test_hidden_lists
+    user = Models::User.new
+    assert_empty user.hidden_lists
+  end
+end
