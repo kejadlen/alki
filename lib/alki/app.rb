@@ -3,7 +3,6 @@ require "tilt/erubis"
 
 require_relative "board_stats"
 require_relative "db"
-require_relative "models"
 require_relative "presenters"
 require_relative "trello"
 
@@ -73,7 +72,7 @@ module Alki
         end
 
         r.post do
-          Models::Action.create(raw: r.params["action"])
+          DB[:actions].insert(raw: r.params["action"])
           ""
         end
       end
