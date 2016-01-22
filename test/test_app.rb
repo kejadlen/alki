@@ -130,7 +130,7 @@ class TestApp < Alki::Test
   end
 
   def test_update_board_options
-    assert_equal 0, Models::HiddenList.count
+    assert_equal 0, DB[:hidden_lists].count
 
     post "boards/56903b47301bbf79e2a0b62d/options",
          {"569998320bd4f518c6aa2e30" => "true", "5699983462bd7b50af093886" => "true"},
@@ -140,7 +140,7 @@ class TestApp < Alki::Test
     follow_redirect!
     assert_equal "http://example.org/boards/56903b47301bbf79e2a0b62d", last_request.url
 
-    assert_equal 2, Models::HiddenList.count
+    assert_equal 2, DB[:hidden_lists].count
 
     VCR.use_cassette("test_update_board_options") do
       get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user.id}

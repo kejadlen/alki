@@ -94,14 +94,16 @@ module Alki
 
         r.on ":board_id" do |board_id|
           r.is do
-            board_presenter = Presenters::Board.new(user.board(board_id), user.hidden_lists.map(&:list_id))
+            board = user.board(board_id)
+            hidden_lists = DB[:hidden_lists].where(user_id: user.id).map(:list_id)
+            board_presenter = Presenters::Board.new(board, hidden_lists)
             view "board", locals: {board_presenter: board_presenter}
           end
 
           r.post "options" do
-            Models::HiddenList.where(user: user, board_id: board_id).delete
+            DB[:hidden_lists].where(user_id: user.id, board_id: board_id).delete
             r.params.keys.each do |list_id|
-              user.add_hidden_list(board_id: board_id, list_id: list_id)
+              DB[:hidden_lists].insert(user_id: user.id, board_id: board_id, list_id: list_id)
             end
 
             r.redirect "/boards/#{board_id}"

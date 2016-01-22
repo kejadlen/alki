@@ -1,5 +1,6 @@
 require_relative "test_helper"
 
+require "alki/db"
 require "alki/models"
 
 class TestBoard < Alki::Test
@@ -40,17 +41,5 @@ class TestBoard < Alki::Test
   def test_averages
     assert_equal 2*DAYS, @board.averages["another_list_id"]
     assert_equal 1.5*DAYS, @board.averages["some_list_id"]
-  end
-end
-
-class TestUser < Alki::Test
-
-  def test_hidden_lists
-    user = Models::User.create(trello_id: "trelloid")
-    assert_empty user.hidden_lists
-
-    hidden_list = Models::HiddenList.new(board_id: "boardid", list_id: "listid")
-    user.add_hidden_list(hidden_list)
-    assert_equal 1, Models::HiddenList.where(user_id: user.id).count
   end
 end

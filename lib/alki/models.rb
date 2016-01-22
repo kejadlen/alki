@@ -82,13 +82,7 @@ module Alki
       end
     end
 
-    class HiddenList < Sequel::Model
-      many_to_one :user
-    end
-
     class User < Sequel::Model
-      one_to_many :hidden_lists
-
       def board(board_id)
         Board.new(raw: trello.boards(board_id), trello: trello)
       end
