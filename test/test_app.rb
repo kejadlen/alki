@@ -6,9 +6,6 @@ require "vcr"
 ENV["SECRET"] = "aBadSecret"
 require "alki/app"
 
-Sequel.extension :migration
-Sequel::Migrator.run(Alki::DB, File.expand_path("../../db/migrations", __FILE__))
-
 VCR.configure do |c|
   c.cassette_library_dir = "test/vcr_cassettes"
   c.hook_into :faraday
