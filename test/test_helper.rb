@@ -1,6 +1,7 @@
 require "minitest/autorun"
 
 $LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
+require "alki/db"
 
 module Alki
   class Test < Minitest::Test
