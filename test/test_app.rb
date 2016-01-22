@@ -17,7 +17,7 @@ VCR.configure do |c|
   c.hook_into :faraday
 end
 
-class TestAlki < Alki::Test
+class TestApp < Alki::Test
   include Rack::Test::Methods
 
   def app
