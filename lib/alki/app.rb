@@ -92,10 +92,22 @@ module Alki
           view "boards", locals: {boards: boards}
         end
 
-        r.get ":board_id" do |board_id|
-          board_presenter = Presenters::Board.new(user.board(board_id))
-          view "board", locals: {board_presenter: board_presenter}
+        r.on ":board_id" do |board_id|
+          r.is do
+            board_presenter = Presenters::Board.new(user.board(board_id), user.hidden_lists.map(&:list_id))
+            view "board", locals: {board_presenter: board_presenter}
+          end
+
+          r.post "options" do
+            Models::HiddenList.where(user: user, board_id: board_id).delete
+            r.params.keys.each do |list_id|
+              user.add_hidden_list(board_id: board_id, list_id: list_id)
+            end
+
+            r.redirect "/boards/#{board_id}"
+          end
         end
+
       end
 
       r.on "api" do

@@ -3,10 +3,10 @@ module Alki
     class Board
       SECONDS_PER_DAY = 24*60*60
 
-      attr_reader :board, :lists
+      attr_reader :board, :lists, :hidden_lists
 
-      def initialize(board)
-        @board = board
+      def initialize(board, hidden_lists)
+        @board, @hidden_lists = board, hidden_lists
 
         @lists = self.board.lists.sort_by { |list| list["pos"] }
       end

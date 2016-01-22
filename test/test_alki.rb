@@ -126,6 +126,27 @@ class TestAlki < Alki::Test
     end
 
     assert_includes last_response.body, "<h2>Options</h2>"
-    assert_match /<input type="checkbox" value="56903b61281e96dd0ae060f2" \/>\s*<label>Waiting for Interview<\/label>/, last_response.body
+    assert_match /<input type="checkbox" name="56903b61281e96dd0ae060f2" value="true" \/>\s*<label>Waiting for Interview<\/label>/, last_response.body
+  end
+
+  def test_update_board_options
+    assert_equal 0, Models::HiddenList.count
+
+    post "boards/56903b47301bbf79e2a0b62d/options",
+         {"569998320bd4f518c6aa2e30" => "true", "5699983462bd7b50af093886" => "true"},
+         "rack.session" => {user_id: @user.id}
+
+    assert last_response.redirect?
+    follow_redirect!
+    assert_equal "http://example.org/boards/56903b47301bbf79e2a0b62d", last_request.url
+
+    assert_equal 2, Models::HiddenList.count
+
+    VCR.use_cassette("test_update_board_options") do
+      get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user.id}
+    end
+
+    refute_includes last_response.body, "<th>More</th>"
+    refute_includes last_response.body, "<th>Lists</th>"
   end
 end

@@ -18,8 +18,9 @@ class TestBoardPresenter < Alki::Test
                    "another_list_id" => 30*60*60,
                    "yet_another_list_id" => 50*60*60},
     )
+    hidden_lists = []
 
-    @board_presenter = Presenters::Board.new(board)
+    @board_presenter = Presenters::Board.new(board, hidden_lists)
   end
 
   def test_column_names
