@@ -59,7 +59,7 @@ module Alki
       end
     end
 
-    class User < Sequel::Model
+    class User
       def board(board_id)
         Board.new(raw: trello.boards(board_id), trello: trello)
       end

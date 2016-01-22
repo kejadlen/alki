@@ -77,8 +77,12 @@ module Alki
         end
       end
 
-      user = Models::User[r.session[:user_id]]
+      user = DB[:users].first(id: r.session[:user_id])
       r.redirect "auth/sign_in" unless user
+      trello = Trello::Authed.new(api_key: ENV["TRELLO_KEY"],
+                                  api_secret: ENV["TRELLO_SECRET"],
+                                  access_token: user[:access_token],
+                                  access_token_secret: user[:access_token_secret])
 
       r.root do
         view "index", locals: {user: user}
@@ -86,24 +90,22 @@ module Alki
 
       r.on "boards" do
         r.is do
-          boards = user.boards.map { |board| {id: board["id"],
-                                              name: board["name"]} }
-
+          boards = trello.members_me_boards.map { |board| {id: board["id"], name: board["name"]} }
           view "boards", locals: {boards: boards}
         end
 
         r.on ":board_id" do |board_id|
           r.is do
-            board = user.board(board_id)
-            hidden_lists = DB[:hidden_lists].where(user_id: user.id).map(:list_id)
+            board = Models::Board.new(raw: trello.boards(board_id), trello: trello)
+            hidden_lists = DB[:hidden_lists].where(user_id: user[:id]).map(:list_id)
             board_presenter = Presenters::Board.new(board, hidden_lists)
             view "board", locals: {board_presenter: board_presenter}
           end
 
           r.post "options" do
-            DB[:hidden_lists].where(user_id: user.id, board_id: board_id).delete
+            DB[:hidden_lists].where(user_id: user[:id], board_id: board_id).delete
             r.params.keys.each do |list_id|
-              DB[:hidden_lists].insert(user_id: user.id, board_id: board_id, list_id: list_id)
+              DB[:hidden_lists].insert(user_id: user[:id], board_id: board_id, list_id: list_id)
             end
 
             r.redirect "/boards/#{board_id}"
@@ -114,7 +116,7 @@ module Alki
 
       r.on "api" do
         r.get "boards/:board_id" do |board_id|
-          board = user.board(board_id)
+          board = Models::Board.new(raw: trello.boards(board_id), trello: trello)
           lists = board.lists
           averages = board.averages
 
