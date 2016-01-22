@@ -19,7 +19,7 @@
       <% board_presenter.card_durations.each do |card_name, durations| %>
           <tr>
             <th scope="row"><%= card_name %></th>
-            <% board_presenter.lists.each do |list| %>
+            <% displayed_lists.each do |list| %>
                 <td><%= durations[list["id"]] %></td>
             <% end %>
           </tr>
@@ -32,7 +32,7 @@
     <h3>Ignored Lists</h3>
     <form action="<%= board_presenter.id %>/options" method="post">
       <% board_presenter.lists.each do |list| %>
-      <input type="checkbox" name="<%= list["id"] %>" value="true" />
+      <input type="checkbox" name="<%= list["id"] %>" value="true" <%== "checked=\"checked\" " if board_presenter.hidden_lists.include?(list["id"]) %>/>
       <label><%= board_presenter.column_names[list["id"]] %></label>
       <br />
       <% end %>

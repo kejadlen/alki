@@ -148,5 +148,7 @@ class TestApp < Alki::Test
 
     refute_includes last_response.body, "<th>More</th>"
     refute_includes last_response.body, "<th>Lists</th>"
+    assert_includes last_response.body, "<input type=\"checkbox\" name=\"569998320bd4f518c6aa2e30\" value=\"true\" checked=\"checked\" />"
+    assert_includes last_response.body, "<input type=\"checkbox\" name=\"5699983462bd7b50af093886\" value=\"true\" checked=\"checked\" />"
   end
 end
