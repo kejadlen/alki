@@ -7,24 +7,20 @@ class TestBoardPresenter < Alki::Test
   def setup
     board = {}
     board_stats = OpenStruct.new(
-        lists: [{"name" => "Waiting for RPI", "id" => "123"},
-                {"name" => "Waiting for Interview", "id" => "789"}],
         card_list_durations: {"1" => {"some_list_id" => 1*60*60,
                                       "another_list_id" => 30*60*60,
                                       "yet_another_list_id" => 50*60*60},
                               "2" => {"some_list_id" => 0}},
         last_actions: {"2" => "2016-01-13T19:20:55.586Z"},
-        cards: [{"id" => "1", "name" => "card one", "idList" => "foobar"},
-                {"id" => "2", "name" => "card two", "idList" => "some_list_id"}],
         averages: {"some_list_id" => 20*60*60,
                    "another_list_id" => 30*60*60,
                    "yet_another_list_id" => 50*60*60},
     )
-    hidden_lists = []
-    lists = [{"name" => "Waiting for RPI", "id" => "123"}, {"name" => "Waiting for Interview", "id" => "789"}]
+    lists = {"123" => {"name" => "Waiting for RPI", "id" => "123", "hidden" => false},
+             "789" => {"name" => "Waiting for Interview", "id" => "789", "hidden" => false}}
     cards = [{"id" => "1", "name" => "card one", "idList" => "foobar"}, {"id" => "2", "name" => "card two", "idList" => "some_list_id"}]
 
-    @board_presenter = Presenters::Board.new(board, hidden_lists, board_stats, lists, cards)
+    @board_presenter = Presenters::Board.new(board, board_stats, lists, cards)
   end
 
   def test_column_names

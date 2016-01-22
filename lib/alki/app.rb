@@ -1,6 +1,7 @@
 require "roda"
 require "tilt/erubis"
 
+require_relative "board_stats"
 require_relative "db"
 require_relative "models"
 require_relative "presenters"
@@ -97,12 +98,17 @@ module Alki
         r.on ":board_id" do |board_id|
           r.is do
             board = trello.boards(board_id)
-            hidden_lists = DB[:hidden_lists].where(user_id: user[:id]).map(:list_id)
             actions = trello.boards_actions(board_id)
             board_stats = BoardStats.new(actions: actions)
-            lists = trello.boards_lists(board_id)
+            lists = Hash[trello.boards_lists(board_id).map { |list| [list["id"], list] }]
             cards = trello.boards_cards(board_id)
-            board_presenter = Presenters::Board.new(board, hidden_lists, board_stats, lists, cards)
+
+            hidden_list_ids = DB[:hidden_lists].where(user_id: user[:id]).map(:list_id)
+            lists.each do |list_id, list|
+              list["hidden"] =  hidden_list_ids.include?(list_id)
+            end
+
+            board_presenter = Presenters::Board.new(board, board_stats, lists, cards)
             view "board", locals: {board_presenter: board_presenter}
           end
 

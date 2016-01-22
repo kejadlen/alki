@@ -3,11 +3,11 @@ module Alki
     class Board
       SECONDS_PER_DAY = 24*60*60
 
-      attr_reader :board, :lists, :hidden_lists, :board_stats, :lists, :cards
+      attr_reader :board, :board_stats, :lists, :cards
 
-      def initialize(board, hidden_lists, board_stats, lists, cards)
-        @board, @hidden_lists, @board_stats, @cards = board, hidden_lists, board_stats, cards
-        @lists = lists.sort_by { |list| list["pos"] }
+      def initialize(board, board_stats, lists, cards)
+        @board, @board_stats, @cards = board, board_stats, cards
+        @lists = Hash[lists.sort_by { |_, list| list["pos"] }]
       end
 
       def id
@@ -19,7 +19,7 @@ module Alki
       end
 
       def column_names
-        Hash[self.lists.map { |list| [list["id"], list["name"]] }]
+        Hash[self.lists.reject {|_, list| list["hidden"] }.map { |list_id, list| [list_id, list["name"]] }]
       end
 
       def card_durations

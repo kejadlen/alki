@@ -2,7 +2,7 @@
   <div class="col-md-10">
     <h1><%= board_presenter.name %></h1>
 
-    <% displayed_lists = board_presenter.lists.reject {|list| board_presenter.hidden_lists.include?(list["id"]) } %>
+    <% displayed_lists = board_presenter.lists.reject {|_, list| list["hidden"] }.values %>
     <table class="table table-hover">
       <tr>
         <th>Name</th>
@@ -31,9 +31,9 @@
     <h2>Options</h2>
     <h3>Ignored Lists</h3>
     <form action="<%= board_presenter.id %>/options" method="post">
-      <% board_presenter.lists.each do |list| %>
-      <input type="checkbox" id="<%= list["id"] %>" name="<%= list["id"] %>" value="true" <%== "checked=\"checked\" " if board_presenter.hidden_lists.include?(list["id"]) %>/>
-      <label for="<%= list["id"] %>"><%= board_presenter.column_names[list["id"]] %></label>
+      <% board_presenter.lists.each do |_, list| %>
+      <input type="checkbox" id="<%= list["id"] %>" name="<%= list["id"] %>" value="true" <%== "checked=\"checked\" " if list["hidden"] %>/>
+      <label for="<%= list["id"] %>"><%= list["name"] %></label>
       <br />
       <% end %>
       <button type="submit">Update</button>
