@@ -32,8 +32,8 @@
     <h3>Ignored Lists</h3>
     <form action="<%= board_presenter.id %>/options" method="post">
       <% board_presenter.lists.each do |list| %>
-      <input type="checkbox" name="<%= list["id"] %>" value="true" <%== "checked=\"checked\" " if board_presenter.hidden_lists.include?(list["id"]) %>/>
-      <label><%= board_presenter.column_names[list["id"]] %></label>
+      <input type="checkbox" id="<%= list["id"] %>" name="<%= list["id"] %>" value="true" <%== "checked=\"checked\" " if board_presenter.hidden_lists.include?(list["id"]) %>/>
+      <label for="<%= list["id"] %>"><%= board_presenter.column_names[list["id"]] %></label>
       <br />
       <% end %>
       <button type="submit">Update</button>

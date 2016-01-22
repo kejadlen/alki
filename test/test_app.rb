@@ -126,7 +126,7 @@ class TestApp < Alki::Test
     end
 
     assert_includes last_response.body, "<h2>Options</h2>"
-    assert_match /<input type="checkbox" name="56903b61281e96dd0ae060f2" value="true" \/>\s*<label>Waiting for Interview<\/label>/, last_response.body
+    assert_match /<input type="checkbox" id="56903b61281e96dd0ae060f2" name="56903b61281e96dd0ae060f2" value="true" \/>\s*<label for="56903b61281e96dd0ae060f2">Waiting for Interview<\/label>/, last_response.body
   end
 
   def test_update_board_options
@@ -148,7 +148,7 @@ class TestApp < Alki::Test
 
     refute_includes last_response.body, "<th>More</th>"
     refute_includes last_response.body, "<th>Lists</th>"
-    assert_includes last_response.body, "<input type=\"checkbox\" name=\"569998320bd4f518c6aa2e30\" value=\"true\" checked=\"checked\" />"
-    assert_includes last_response.body, "<input type=\"checkbox\" name=\"5699983462bd7b50af093886\" value=\"true\" checked=\"checked\" />"
+    assert_includes last_response.body, "<input type=\"checkbox\" id=\"569998320bd4f518c6aa2e30\" name=\"569998320bd4f518c6aa2e30\" value=\"true\" checked=\"checked\" />"
+    assert_includes last_response.body, "<input type=\"checkbox\" id=\"5699983462bd7b50af093886\" name=\"5699983462bd7b50af093886\" value=\"true\" checked=\"checked\" />"
   end
 end
