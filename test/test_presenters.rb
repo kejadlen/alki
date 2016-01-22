@@ -1,10 +1,12 @@
 require_relative "test_helper"
 
+require "alki/board_stats"
 require "alki/presenters"
 
 class TestBoardPresenter < Alki::Test
   def setup
-    board = OpenStruct.new(
+    board = {}
+    board_stats = OpenStruct.new(
         lists: [{"name" => "Waiting for RPI", "id" => "123"},
                 {"name" => "Waiting for Interview", "id" => "789"}],
         card_list_durations: {"1" => {"some_list_id" => 1*60*60,
@@ -19,8 +21,10 @@ class TestBoardPresenter < Alki::Test
                    "yet_another_list_id" => 50*60*60},
     )
     hidden_lists = []
+    lists = [{"name" => "Waiting for RPI", "id" => "123"}, {"name" => "Waiting for Interview", "id" => "789"}]
+    cards = [{"id" => "1", "name" => "card one", "idList" => "foobar"}, {"id" => "2", "name" => "card two", "idList" => "some_list_id"}]
 
-    @board_presenter = Presenters::Board.new(board, hidden_lists)
+    @board_presenter = Presenters::Board.new(board, hidden_lists, board_stats, lists, cards)
   end
 
   def test_column_names

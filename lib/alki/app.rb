@@ -96,9 +96,13 @@ module Alki
 
         r.on ":board_id" do |board_id|
           r.is do
-            board = Models::Board.new(raw: trello.boards(board_id), trello: trello)
+            board = trello.boards(board_id)
             hidden_lists = DB[:hidden_lists].where(user_id: user[:id]).map(:list_id)
-            board_presenter = Presenters::Board.new(board, hidden_lists)
+            actions = trello.boards_actions(board_id)
+            board_stats = BoardStats.new(actions: actions)
+            lists = trello.boards_lists(board_id)
+            cards = trello.boards_cards(board_id)
+            board_presenter = Presenters::Board.new(board, hidden_lists, board_stats, lists, cards)
             view "board", locals: {board_presenter: board_presenter}
           end
 
@@ -116,9 +120,10 @@ module Alki
 
       r.on "api" do
         r.get "boards/:board_id" do |board_id|
-          board = Models::Board.new(raw: trello.boards(board_id), trello: trello)
-          lists = board.lists
-          averages = board.averages
+          actions = trello.boards_actions(board_id)
+          board_stats = BoardStats.new(actions: actions)
+          lists = trello.boards_lists(board_id)
+          averages = board_stats.averages
 
           data = lists.each.with_object({lists: []}) do |list, data|
             data[:lists] << {id: list["id"], name: list["name"], average_duration: averages[list["id"]]}

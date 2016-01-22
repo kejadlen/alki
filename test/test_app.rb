@@ -3,11 +3,8 @@ require_relative "test_helper"
 require "rack/test"
 require "vcr"
 
-ENV["DATABASE_URL"] = "postgres://localhost/alki_test"
 ENV["SECRET"] = "aBadSecret"
-
 require "alki/app"
-require "alki/models"
 
 Sequel.extension :migration
 Sequel::Migrator.run(Alki::DB, File.expand_path("../../db/migrations", __FILE__))
