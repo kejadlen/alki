@@ -23,11 +23,6 @@ class TestBoardPresenter < Alki::Test
     @board_presenter = Presenters::Board.new(board, board_stats, lists, cards)
   end
 
-  def test_column_names
-    expected = {"123" => "Waiting for RPI", "789" => "Waiting for Interview"}
-    assert_equal expected, @board_presenter.column_names
-  end
-
   def test_card_durations
     card_durations = nil
     Time.stub :now, Time.parse("2016-01-15T19:20:55.586Z") do

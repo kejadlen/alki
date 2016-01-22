@@ -10,18 +10,6 @@ module Alki
         @lists = Hash[lists.sort_by { |_, list| list["pos"] }]
       end
 
-      def id
-        self.board["id"]
-      end
-
-      def name
-        self.board["name"]
-      end
-
-      def column_names
-        Hash[self.lists.reject {|_, list| list["hidden"] }.map { |list_id, list| [list_id, list["name"]] }]
-      end
-
       def card_durations
         cards = self.cards
         cards.unshift("id" => "average", "name" => "Average")
