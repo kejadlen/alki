@@ -1,5 +1,6 @@
 require_relative "test_helper"
 
+require "oga"
 require "rack/test"
 require "vcr"
 
@@ -30,8 +31,7 @@ class TestApp < Alki::Test
     end
 
     assert last_response.ok?
-    assert_includes last_response.body, "Hiring"
-    assert_includes last_response.body, "Welcome Board"
+    assert_inner_text "//ul/li/a", %w[ Hiring Welcome\ Board ]
   end
 
   # def test_add_webhook
@@ -60,12 +60,13 @@ class TestApp < Alki::Test
     end
 
     assert last_response.ok?
-
-    assert_includes last_response.body, "Hiring"
-
-    ["Kurtis Seebaldt", "Alpha Chen", "Steve Gravrock", "Augustus Lidaka"].each do |name|
-      assert_includes last_response.body, name
-    end
+    assert_inner_text "//h1", ["Hiring"]
+    assert_inner_text "//tr/th[@scope='row']", %w[ Average
+                                                   Zoom\ Zoom
+                                                   Augustus\ Lidaka
+                                                   Steve\ Gravrock
+                                                   Kurtis\ Seebaldt
+                                                   Alpha\ Chen ]
   end
 
   def test_cycle_times
@@ -76,7 +77,7 @@ class TestApp < Alki::Test
     end
 
     assert last_response.ok?
-    assert_match /<th scope="row">Steve Gravrock<\/th>\s*<td>&lt; 1 day<\/td>\s*<td>2 days<\/td>\s*<td>&lt; 1 day<\/td>/, last_response.body
+    assert_inner_text "//tr[th[text()='Steve Gravrock']]/td", ["< 1 day", "2 days", "< 1 day"]
   end
 
   def test_last_actions
@@ -86,7 +87,8 @@ class TestApp < Alki::Test
       end
     end
 
-    assert_match /<th scope="row">Kurtis Seebaldt<\/th>\s*<td>3 days<\/td>/, last_response.body
+    assert last_response.ok?
+    assert_inner_text "//tr[th[text()='Kurtis Seebaldt']]/td[1]", ["3 days"]
   end
 
   def test_aggregate_stats
@@ -96,7 +98,8 @@ class TestApp < Alki::Test
       end
     end
 
-    assert_match /<th scope="row">Average<\/th>\s*<td>&lt; 1 day<\/td>/, last_response.body
+    assert last_response.ok?
+    assert_inner_text "//tr[th[text()='Average']]/td[1]", ["< 1 day"]
   end
 
   def test_api
@@ -105,6 +108,8 @@ class TestApp < Alki::Test
         get "api/boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user_id}
       end
     end
+
+    assert last_response.ok?
 
     response = JSON.parse(last_response.body)
 
@@ -119,8 +124,13 @@ class TestApp < Alki::Test
       get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user_id}
     end
 
-    assert_includes last_response.body, "<h2>Options</h2>"
-    assert_match /<input type="checkbox" id="56903b61281e96dd0ae060f2" name="56903b61281e96dd0ae060f2" value="true" \/>\s*<label for="56903b61281e96dd0ae060f2">Waiting for Interview<\/label>/, last_response.body
+    assert last_response.ok?
+    assert_inner_text "//h2", ["Options"]
+
+    id = "56903b61281e96dd0ae060f2"
+    attrs = "@type='checkbox' and @id='#{id}' and @name='#{id}' and @value='true'"
+    assert_inner_text "//form[input[#{attrs}]]/label[@for='#{id}']",
+                      ["Waiting for Interview"]
   end
 
   def test_update_board_options
@@ -140,9 +150,20 @@ class TestApp < Alki::Test
       get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user_id}
     end
 
-    refute_includes last_response.body, "<th>More</th>"
-    refute_includes last_response.body, "<th>Lists</th>"
-    assert_includes last_response.body, "<input type=\"checkbox\" id=\"569998320bd4f518c6aa2e30\" name=\"569998320bd4f518c6aa2e30\" value=\"true\" checked=\"checked\" />"
-    assert_includes last_response.body, "<input type=\"checkbox\" id=\"5699983462bd7b50af093886\" name=\"5699983462bd7b50af093886\" value=\"true\" checked=\"checked\" />"
+    assert_empty parsed_body.xpath("//th[text()='More']")
+    assert_empty parsed_body.xpath("//th[text()='Lists']")
+
+    refute_empty parsed_body.xpath("//input[@id='569998320bd4f518c6aa2e30' and @checked='checked']")
+    refute_empty parsed_body.xpath("//input[@id='5699983462bd7b50af093886' and @checked='checked']")
+  end
+
+  private
+
+  def assert_inner_text(xpath, expected)
+    assert_equal expected, parsed_body.xpath(xpath).map(&:inner_text)
+  end
+
+  def parsed_body
+    Oga.parse_html(last_response.body)
   end
 end
