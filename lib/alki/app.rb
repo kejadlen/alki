@@ -52,10 +52,15 @@ module Alki
                                       access_token_secret: oauth_token_secret)
           me = authed.members_me
 
-          user = Models::User.find_or_create(trello_id: me["id"])
-          user.update(access_token: oauth_token, access_token_secret: oauth_token_secret)
+          user_id = nil
+          DB.transaction do
+            user = DB[:users][trello_id: me["id"]]
+            user_id = user ? user[:id] : DB[:users].insert(trello_id: me["id"])
+            DB[:users].where(id: user_id)
+                      .update(access_token: oauth_token, access_token_secret: oauth_token_secret)
+          end
 
-          r.session[:user_id] = user.id
+          r.session[:user_id] = user_id
 
           r.redirect "/"
         end
