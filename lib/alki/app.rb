@@ -4,6 +4,7 @@ require "tilt/erubis"
 require_relative "board_stats"
 require_relative "db"
 require_relative "presenters"
+require_relative "stats"
 require_relative "trello"
 
 module Alki
@@ -112,7 +113,9 @@ module Alki
               list["hidden"] =  hidden_list_ids.include?(list_id)
             end
 
-            board_presenter = Presenters::Board.new(board, board_stats, lists, cards)
+            stats = Stats.new(actions: actions)
+
+            board_presenter = Presenters::Board.new(board, board_stats, lists, cards, stats)
             view "board", locals: {board_presenter: board_presenter}
           end
 

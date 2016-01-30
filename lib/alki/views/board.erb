@@ -13,14 +13,14 @@
       <tr class="active">
         <th scope="row">Average</th>
         <% displayed_lists.each do |list| %>
-            <td><%= board_presenter.averages[list["id"]] %></td>
+            <td><%= board_presenter.average(list["id"]) %></td>
         <% end %>
       </tr>
-      <% board_presenter.card_durations.each do |card_name, durations| %>
+      <% board_presenter.cards.reject { |card| card["id"] == "average" }.each do |card| %>
           <tr>
-            <th scope="row"><%= card_name %></th>
+            <th scope="row"><%= card["name"] %></th>
             <% displayed_lists.each do |list| %>
-                <td><%= durations[list["id"]] %></td>
+                <td><%= board_presenter.wait_time(card["id"], list["id"]) %></td>
             <% end %>
           </tr>
       <% end %>

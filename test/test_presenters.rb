@@ -20,7 +20,7 @@ class TestBoardPresenter < Alki::Test
              "789" => {"name" => "Waiting for Interview", "id" => "789", "hidden" => false}}
     cards = [{"id" => "1", "name" => "card one", "idList" => "foobar"}, {"id" => "2", "name" => "card two", "idList" => "some_list_id"}]
 
-    @board_presenter = Presenters::Board.new(board, board_stats, lists, cards)
+    @board_presenter = Presenters::Board.new(board, board_stats, lists, cards, nil)
   end
 
   def test_card_durations

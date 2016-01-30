@@ -62,11 +62,11 @@ class TestApp < Alki::Test
     assert last_response.ok?
     assert_inner_text "//h1", ["Hiring"]
     assert_inner_text "//tr/th[@scope='row']", %w[ Average
-                                                   Zoom\ Zoom
-                                                   Augustus\ Lidaka
-                                                   Steve\ Gravrock
                                                    Kurtis\ Seebaldt
-                                                   Alpha\ Chen ]
+                                                   Steve\ Gravrock
+                                                   Alpha\ Chen
+                                                   Augustus\ Lidaka
+                                                   Zoom\ Zoom ]
   end
 
   def test_cycle_times
