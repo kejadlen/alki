@@ -1,0 +1,3 @@
+language: ruby
+env:
+  - DATABASE_URL=sqlite3::memory:

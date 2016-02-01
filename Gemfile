@@ -12,12 +12,15 @@ gem "sequel"
 gem "simple_oauth"
 gem "tilt"
 
-group :development do
-  gem "foreman"
+group :test do
   gem "minitest"
   gem "oga"
-  gem "pry"
   gem "rack-test"
-  gem "rerun"
   gem "vcr"
+end
+
+group :development do
+  gem "foreman"
+  gem "pry"
+  gem "rerun"
 end
