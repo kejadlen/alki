@@ -81,14 +81,14 @@ class TestApp < Alki::Test
   end
 
   def test_last_actions
-    Time.stub :now, Time.parse("2016-01-15") do
+    Time.stub :now, Time.parse("2016-01-15T00:00:00Z") do
       VCR.use_cassette("test_board") do
         get "boards/56903b47301bbf79e2a0b62d", {}, "rack.session" => {user_id: @user_id}
       end
     end
 
     assert last_response.ok?
-    assert_inner_text "//tr[th[text()='Kurtis Seebaldt']]/td[1]", ["3 days"]
+    assert_inner_text "//tr[th[text()='Kurtis Seebaldt']]/td[1]", ["2 days"]
   end
 
   def test_aggregate_stats
