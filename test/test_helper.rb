@@ -1,8 +1,10 @@
 require "minitest/autorun"
 
+require "dotenv"
+Dotenv.overload(File.expand_path("../../.test.envrc", __FILE__))
+
 $LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
 
-ENV["DATABASE_URL"] ||= "postgres://localhost/alki_test"
 require "alki/db"
 
 Sequel.extension :migration
