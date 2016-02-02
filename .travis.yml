@@ -1,3 +1,7 @@
 language: ruby
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database alki_test;' -U postgres
 env:
-  - DATABASE_URL="sqlite::memory:"
+  - DATABASE_URL="postgres://postgres@localhost/alki_test"
