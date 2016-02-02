@@ -13,6 +13,7 @@ gem "simple_oauth"
 gem "tilt"
 
 group :test do
+  gem "dotenv"
   gem "minitest"
   gem "oga"
   gem "rack-test"
