@@ -1,5 +1,7 @@
 # Alki
 
+[![Travis CI build status](https://travis-ci.org/seattle-beach/alki.svg?branch=master)](https://travis-ci.org/seattle-beach/alki)
+
 ## Setup
 
 Requires Ruby 2.2.3 and Postgres.
