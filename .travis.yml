@@ -7,6 +7,8 @@ before_script:
 - psql -c 'create database alki_test;' -U postgres
 env:
 - DATABASE_URL="postgres://postgres@localhost/alki_test"
+before_deploy:
+- rm -rf vendor
 deploy:
   provider: cloudfoundry
   api: https://api.run.pivotal.io
