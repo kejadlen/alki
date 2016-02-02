@@ -1,9 +1,20 @@
 language: ruby
 services:
-  - postgresql
+- postgresql
 addons:
-  postgresql: "9.3"
+  postgresql: '9.3'
 before_script:
-  - psql -c 'create database alki_test;' -U postgres
+- psql -c 'create database alki_test;' -U postgres
 env:
-  - DATABASE_URL="postgres://postgres@localhost/alki_test"
+- DATABASE_URL="postgres://postgres@localhost/alki_test"
+deploy:
+  provider: cloudfoundry
+  api: https://api.run.pivotal.io
+  username: achen@pivotal.io
+  password:
+    secure: NetECy5XEJh+4N+OJg6iZWgyU7nBitrMaqPmL8Gra8YzYEJ9rwTAmNzm2hYjSUKioLk77ZJA27y+MDzBsApGI9Gno8EgOaHh0uVM6wQrxddIrd1hPXe3kwc2oTeW/nqZh/dqx0vR33bu4hibmFP65ltDbaqpcra0cXRSFfLncgKqqP6ueBPAFWJLI6I5wQouxNKBUvZCMS0WO98IXX3R2noLQQMIyK54W/ytY9W1XbMowPMUJN7ipkNHlEwkJgVvrRp478bNmLUW7xbjwOQJ3but7ZpiNrcV2p8tKiDLLzgcdQjU4cBRw8DI0x9ATf4JgjPqOsCc5xMjlURHfsXIZc22Tx3E9g4pIkxg+X808s/iTM28vH8APgEwe9nKFZ4Xbe30BOE395yd1khOAL6kGSryTKsqYCxy0DyCbFwubH2cqX2UfmC9A7MpxEAJKlhl6EdPIHDxnFgrxF1s85gg3huFaPKBvW9bANlqo8ZyLGZZMcePx/q5EZhQpDIPt1368Cu/9ONgrVehlOhRJohqlAEhzbYyvQDH0RULa0bu5J/LIFoNiNtjM3qL1rxDbRqXXBI2oYdhCE5uRGM2jo42XRnNO5zzjxTynZuDhkEpzUgNyvhj1DMXeqE9gpZho1pgMPoPnJ+shQFCwkmjDw4xQKEFoYrABAcMPmEurf9sAos=
+  organization: seattle-beach
+  space: dev
+  on:
+    repo: seattle-beach/alki
+    branch: master
