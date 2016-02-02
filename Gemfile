@@ -17,7 +17,6 @@ group :test do
   gem "minitest"
   gem "oga"
   gem "rack-test"
-  gem "sqlite3"
   gem "vcr"
 end
 
