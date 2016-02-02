@@ -43,4 +43,4 @@ task :jshint do
   sh("jshint --exclude test/jasmine/lib .")
 end
 
-task default: [:test, :jshint]
+task default: :test
