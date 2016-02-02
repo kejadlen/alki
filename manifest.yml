@@ -2,3 +2,4 @@
 applications:
 - name: alki
   buildpack: ruby_buildpack
+  host: alki-beach
