@@ -77,7 +77,8 @@ module Alki
 
       def boards_cards(board_id)
         self.conn.get("boards/#{board_id}/cards",
-                      filter: "all").body
+                      filter: "all",
+                      limit: 1000).body
       end
 
       def boards_lists(board_id)

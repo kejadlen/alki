@@ -257,7 +257,7 @@ http_interactions:
   recorded_at: Fri, 22 Jan 2016 17:56:30 GMT
 - request:
     method: get
-    uri: https://trello.com/1/boards/56903b47301bbf79e2a0b62d/cards?filter=all
+    uri: https://trello.com/1/boards/56903b47301bbf79e2a0b62d/cards?filter=all&limit=1000
     body:
       encoding: US-ASCII
       string: ''
