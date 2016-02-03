@@ -16,7 +16,7 @@
             <td><%= board_presenter.average(list["id"]) %></td>
         <% end %>
       </tr>
-      <% board_presenter.cards.reject { |card| card["id"] == "average" }.each do |card| %>
+      <% board_presenter.visible_cards.each do |card| %>
           <tr>
             <th scope="row"><%= card["name"] %></th>
             <% visible_lists.each do |list| %>

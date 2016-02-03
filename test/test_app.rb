@@ -65,8 +65,7 @@ class TestApp < Alki::Test
                                                    Kurtis\ Seebaldt
                                                    Steve\ Gravrock
                                                    Alpha\ Chen
-                                                   Augustus\ Lidaka
-                                                   Zoom\ Zoom ]
+                                                   Augustus\ Lidaka]
   end
 
   def test_cycle_times
