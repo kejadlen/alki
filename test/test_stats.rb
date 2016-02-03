@@ -24,7 +24,7 @@ class TestStats < Alki::Test
        "date" => "2016-01-03T01:00:00.000Z",
        "data" => {"card" => {"id" => "2"}, "listAfter" => {"id" => "yet_another_list_id"}}},
     ]
-    @card = Stats.new(actions: actions, time: Time.parse("2016-01-08"))
+    @card = Stats.new(actions: actions, time: Time.parse("2016-01-08T08:00:00Z"))
   end
 
   def test_averages
