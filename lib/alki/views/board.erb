@@ -2,24 +2,24 @@
   <div class="col-md-10">
     <h1><%= board_presenter.board["name"] %></h1>
 
-    <% displayed_lists = board_presenter.lists.reject { |list| list["hidden"] } %>
+    <% visible_lists = board_presenter.visible_lists %>
     <table class="table table-hover">
       <tr>
         <th>Name</th>
-        <% displayed_lists.each do |list| %>
+        <% visible_lists.each do |list| %>
             <th><%= list["name"] %></th>
         <% end %>
       </tr>
       <tr class="active">
         <th scope="row">Average</th>
-        <% displayed_lists.each do |list| %>
+        <% visible_lists.each do |list| %>
             <td><%= board_presenter.average(list["id"]) %></td>
         <% end %>
       </tr>
       <% board_presenter.cards.reject { |card| card["id"] == "average" }.each do |card| %>
           <tr>
             <th scope="row"><%= card["name"] %></th>
-            <% displayed_lists.each do |list| %>
+            <% visible_lists.each do |list| %>
                 <td><%= board_presenter.wait_time(card["id"], list["id"]) %></td>
             <% end %>
           </tr>

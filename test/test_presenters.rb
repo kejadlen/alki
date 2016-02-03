@@ -19,8 +19,9 @@ class TestBoardPresenter < Alki::Test
           "some_list_id" => 0}},
     )
     lists = [
-      {"name" => "Waiting for RPI", "id" => "123", "hidden" => false},
-      {"name" => "Waiting for Interview", "id" => "789", "hidden" => false}]
+      {"name" => "Waiting for RPI", "id" => "some_list_id", "hidden" => false},
+      {"name" => "Waiting for Interview", "id" => "another_list_id", "hidden" => false},
+      {"name" => "A Hidden List", "id" => "a_hidden_list", "hidden" => true}]
     cards = [{"id" => "1", "name" => "card one", "idList" => "foobar"}, {"id" => "2", "name" => "card two", "idList" => "some_list_id"}]
 
     @board_presenter = Presenters::Board.new(board, lists, cards, stats)
@@ -36,6 +37,10 @@ class TestBoardPresenter < Alki::Test
     assert_equal "1 day", card_durations["card one"]["another_list_id"]
     assert_equal "2 days", card_durations["card one"]["yet_another_list_id"]
     assert_equal "< 1 day", card_durations["card two"]["some_list_id"]
+  end
+
+  def test_lists
+    assert_equal %w[ some_list_id another_list_id ], @board_presenter.visible_lists.map { |list| list["id"] }
   end
 
   def test_averages

@@ -39,6 +39,10 @@ module Alki
         end
       end
 
+      def visible_lists
+        @lists.reject { |list| list["hidden"] }
+      end
+
       def _format_duration(duration)
         return "" if duration.nil?
 
