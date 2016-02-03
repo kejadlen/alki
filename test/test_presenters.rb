@@ -16,7 +16,7 @@ class TestBoardPresenter < Alki::Test
           "another_list_id" => 30*60*60,
           "yet_another_list_id" => 50*60*60},
         "2" => {
-          "some_list_id" => 0},
+          "some_list_id" => 100*60*60},
         "3" => {
           "a_hidden_list" => 10},
         "4" => {
@@ -50,7 +50,7 @@ class TestBoardPresenter < Alki::Test
     assert_equal "< 1 day", card_durations["card one"]["some_list_id"]
     assert_equal "1 day", card_durations["card one"]["another_list_id"]
     assert_equal "2 days", card_durations["card one"]["yet_another_list_id"]
-    assert_equal "< 1 day", card_durations["card two"]["some_list_id"]
+    assert_equal "4 days", card_durations["card two"]["some_list_id"]
   end
 
   def test_lists
@@ -71,6 +71,6 @@ class TestBoardPresenter < Alki::Test
   end
 
   def test_cards
-    assert_equal %w[ 1 2 ], @board_presenter.visible_cards.map { |card| card["id"] }
+    assert_equal %w[ 2 1 ], @board_presenter.visible_cards.map { |card| card["id"] }
   end
 end

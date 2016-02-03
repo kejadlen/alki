@@ -62,9 +62,9 @@ class TestApp < Alki::Test
     assert last_response.ok?
     assert_inner_text "//h1", ["Hiring"]
     assert_inner_text "//tr/th[@scope='row']", %w[ Average
+                                                   Alpha\ Chen
                                                    Kurtis\ Seebaldt
                                                    Steve\ Gravrock
-                                                   Alpha\ Chen
                                                    Augustus\ Lidaka]
   end
 

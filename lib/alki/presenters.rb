@@ -13,7 +13,10 @@ module Alki
         @visible_cards = cards.select do |card|
           list_id = stats.current_lists[card["id"]]
           @visible_lists.map { |list| list["id"] }.include?(list_id)
-        end
+        end.sort_by do |card|
+          list_id = @stats.current_lists[card["id"]]
+          @stats.wait_times[card["id"]][list_id]
+        end.reverse
       end
 
       def wait_time(card_id, list_id)
