@@ -49,17 +49,19 @@ module Alki
 
       @histories = {}
       actions.group_by { |action| action["data"]["card"]["id"] }.each do |card_id, actions|
-        sorted_actions = actions.sort_by { |action| action["date"] }
-        history = sorted_actions.each_cons(2).map do |action_1, action_2|
-          list_id = action_2["data"]["listBefore"]["id"] || action_2["data"]["list"]["id"] 
-          [ action_1["date"], list_id ]
+        @histories[card_id] = actions.sort_by { |action| action["date"] }.map do |action|
+          date = action["date"]
+          list_id = case action["type"]
+                      when "createCard"
+                        action["data"]["list"]["id"]
+                      when "updateCard"
+                        list = action["data"]["listAfter"]
+                        list && list["id"] # nil if the card is closed
+                      else
+                        raise "Unexpected type \"#{type}\""
+                    end
+          Timestamp.new(date, list_id)
         end
-
-        current_action = sorted_actions.last
-        list_id = current_action["data"]["listAfter"]["id"] rescue nil
-        history << [ current_action["date"], list_id ]
-
-        @histories[card_id] = history.map { |date, list_id| Timestamp.new(date, list_id) }
       end
       @histories
     end

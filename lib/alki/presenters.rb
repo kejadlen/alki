@@ -11,8 +11,7 @@ module Alki
       end
 
       def wait_time(card_id, list_id)
-        card_name = self.cards.find { |card| card["id"] == card_id }["name"]
-        self.card_durations[card_name][list_id]
+        self._format_duration(self.stats.wait_times[card_id][list_id])
       end
 
       def average(list_id)
@@ -34,20 +33,20 @@ module Alki
         @card_durations = card_list_durations.each.with_object(Hash.new { |h, k| h[k] = {} }) do |(card_id, row), card_durations|
           row.each.with_object(card_durations) do |(list_id, duration), card_durations|
             card_name = cards[card_id]["name"]
-            card_durations[card_name][list_id] = format_duration(duration)
+            card_durations[card_name][list_id] = self._format_duration(duration)
           end
         end
       end
 
       def averages
         self.board_stats.averages.each.with_object({}) do |(list_id, duration), averages|
-          averages[list_id] = format_duration(duration)
+          averages[list_id] = self._format_duration(duration)
         end
       end
 
-      private
+      def _format_duration(duration)
+        return "" if duration.nil?
 
-      def format_duration(duration)
         days = duration / SECONDS_PER_DAY
         case days.floor
           when 0
