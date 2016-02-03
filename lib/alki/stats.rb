@@ -1,6 +1,6 @@
 module Alki
   class Stats
-    class Timestamp < Struct.new(:time, :list_id)
+    class Action < Struct.new(:time, :list_id)
       def initialize(time, *args)
         super
 
@@ -44,7 +44,7 @@ module Alki
 
       @wait_times = Hash.new { |h,k| h[k] = {} }
       self._histories.each do |card_id, history|
-        history += [ Timestamp.new(self.time, nil) ] unless history.last.list_id.nil?
+        history += [ Action.new(self.time, nil) ] unless history.last.list_id.nil?
         history.each_cons(2) do |pre, post|
           @wait_times[card_id][pre.list_id] = post.time - pre.time
         end
@@ -68,7 +68,7 @@ module Alki
                       else
                         raise "Unexpected type \"#{type}\""
                     end
-          Timestamp.new(date, list_id)
+          Action.new(date, list_id)
         end
       end
       @histories
