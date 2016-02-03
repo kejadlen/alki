@@ -1,26 +1,28 @@
 require_relative "test_helper"
 
-require "alki/board_stats"
 require "alki/presenters"
 
 class TestBoardPresenter < Alki::Test
   def setup
     board = {}
-    board_stats = OpenStruct.new(
-        card_list_durations: {"1" => {"some_list_id" => 1*60*60,
-                                      "another_list_id" => 30*60*60,
-                                      "yet_another_list_id" => 50*60*60},
-                              "2" => {"some_list_id" => 0}},
-        last_actions: {"2" => "2016-01-13T19:20:55.586Z"},
-        averages: {"some_list_id" => 20*60*60,
-                   "another_list_id" => 30*60*60,
-                   "yet_another_list_id" => 50*60*60},
+    stats = OpenStruct.new(
+      averages: {
+        "some_list_id" => 20*60*60,
+        "another_list_id" => 30*60*60,
+        "yet_another_list_id" => 50*60*60},
+      wait_times: {
+        "1" => {
+          "some_list_id" => 1*60*60,
+          "another_list_id" => 30*60*60,
+          "yet_another_list_id" => 50*60*60},
+        "2" => {
+          "some_list_id" => 0}},
     )
     lists = {"123" => {"name" => "Waiting for RPI", "id" => "123", "hidden" => false},
-             "789" => {"name" => "Waiting for Interview", "id" => "789", "hidden" => false}}
+      "789" => {"name" => "Waiting for Interview", "id" => "789", "hidden" => false}}
     cards = [{"id" => "1", "name" => "card one", "idList" => "foobar"}, {"id" => "2", "name" => "card two", "idList" => "some_list_id"}]
 
-    @board_presenter = Presenters::Board.new(board, board_stats, lists, cards, nil)
+    @board_presenter = Presenters::Board.new(board, lists, cards, stats)
   end
 
   def test_card_durations
@@ -32,7 +34,7 @@ class TestBoardPresenter < Alki::Test
     assert_equal "< 1 day", card_durations["card one"]["some_list_id"]
     assert_equal "1 day", card_durations["card one"]["another_list_id"]
     assert_equal "2 days", card_durations["card one"]["yet_another_list_id"]
-    assert_equal "2 days", card_durations["card two"]["some_list_id"]
+    assert_equal "< 1 day", card_durations["card two"]["some_list_id"]
   end
 
   def test_averages

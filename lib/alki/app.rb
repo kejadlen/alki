@@ -1,7 +1,6 @@
 require "roda"
 require "tilt/erubis"
 
-require_relative "board_stats"
 require_relative "db"
 require_relative "presenters"
 require_relative "stats"
@@ -104,7 +103,6 @@ module Alki
           r.is do
             board = trello.boards(board_id)
             actions = trello.boards_actions(board_id)
-            board_stats = BoardStats.new(actions: actions)
             lists = Hash[trello.boards_lists(board_id).map { |list| [list["id"], list] }]
             cards = trello.boards_cards(board_id)
 
@@ -115,7 +113,7 @@ module Alki
 
             stats = Stats.new(actions: actions)
 
-            board_presenter = Presenters::Board.new(board, board_stats, lists, cards, stats)
+            board_presenter = Presenters::Board.new(board, lists, cards, stats)
             view "board", locals: {board_presenter: board_presenter}
           end
 
@@ -131,21 +129,21 @@ module Alki
 
       end
 
-      r.on "api" do
-        r.get "boards/:board_id" do |board_id|
-          actions = trello.boards_actions(board_id)
-          board_stats = BoardStats.new(actions: actions)
-          lists = trello.boards_lists(board_id)
-          averages = board_stats.averages
-
-          data = lists.each.with_object({lists: []}) do |list, data|
-            data[:lists] << {id: list["id"], name: list["name"], average_duration: averages[list["id"]]}
-          end
-
-          data[:board_id] = board_id
-          JSON.dump(data)
-        end
-      end
+      # r.on "api" do
+      #   r.get "boards/:board_id" do |board_id|
+      #     actions = trello.boards_actions(board_id)
+      #     board_stats = BoardStats.new(actions: actions)
+      #     lists = trello.boards_lists(board_id)
+      #     averages = board_stats.averages
+      #
+      #     data = lists.each.with_object({lists: []}) do |list, data|
+      #       data[:lists] << {id: list["id"], name: list["name"], average_duration: averages[list["id"]]}
+      #     end
+      #
+      #     data[:board_id] = board_id
+      #     JSON.dump(data)
+      #   end
+      # end
 
       r.on "webhook" do
         r.delete ":webhook_id" do |webhook_id|
