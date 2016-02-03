@@ -10,9 +10,9 @@ Requires Ruby 2.2.3 and Postgres.
 
 Alki uses the following environment variables for configuration:
 
-- TRELLO_KEY, TRELLO_SECRET for communicating with the Trello API.
-- SECRET for the cookie secret.
-- DATABASE_URL to connect to the Postgres database.
+- `TRELLO_KEY`, `TRELLO_SECRET` for communicating with the Trello API.
+- `SECRET` for the cookie secret.
+- `DATABASE_URL` to connect to the Postgres database.
 
 A sample .envrc file is available [here](https://drive.google.com/open?id=0ByzPAU4fK2-EZTJFMVdsM1gweWc).
 
@@ -47,7 +47,6 @@ Database setup:
 
 ```
 createdb alki_test
-DATABASE_URL=postgres://localhost/alki_test rake db:migrate
 ```
 
 To actually run the tests:
@@ -56,10 +55,11 @@ To actually run the tests:
 rake
 ```
 
-To record new cassettes in `test_alki.rb`, you need to use an actual access token and access token secret. These can be
-obtained from the development DB (assuming you've logged into Trello in the app) and temporarily used in the User
-object so that the initial request/response pair can be recorded. You'll then want to sanitize the request/response to
-use TEST_ACCESS_TOKEN instead of your real access token.
+To record new cassettes in `test_alki.rb`, you need to use an actual access
+token and access token secret. These can be obtained from the development DB
+(assuming you've logged into Trello in the app) and the `TEST_ACCESS_TOKEN` and
+`TEST_ACCESS_TOKEN_SECRET` environment variables set appropriately in
+`.test.envrc`.
 
 ### Jasmine
 
