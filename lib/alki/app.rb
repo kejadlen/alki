@@ -103,12 +103,12 @@ module Alki
           r.is do
             board = trello.boards(board_id)
             actions = trello.boards_actions(board_id)
-            lists = Hash[trello.boards_lists(board_id).map { |list| [list["id"], list] }]
+            lists = trello.boards_lists(board_id)
             cards = trello.boards_cards(board_id)
 
             hidden_list_ids = DB[:hidden_lists].where(user_id: user[:id]).map(:list_id)
-            lists.each do |list_id, list|
-              list["hidden"] =  hidden_list_ids.include?(list_id)
+            lists.each do |list|
+              list["hidden"] =  hidden_list_ids.include?(list["id"])
             end
 
             stats = Stats.new(actions: actions)

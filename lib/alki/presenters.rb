@@ -7,7 +7,7 @@ module Alki
 
       def initialize(board, lists, cards, stats)
         @board, @cards, @stats = board, cards, stats
-        @lists = Hash[lists.sort_by { |_, list| list["pos"] }]
+        @lists = lists.sort_by { |list| list["pos"] }
       end
 
       def wait_time(card_id, list_id)

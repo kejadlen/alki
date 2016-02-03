@@ -18,8 +18,9 @@ class TestBoardPresenter < Alki::Test
         "2" => {
           "some_list_id" => 0}},
     )
-    lists = {"123" => {"name" => "Waiting for RPI", "id" => "123", "hidden" => false},
-      "789" => {"name" => "Waiting for Interview", "id" => "789", "hidden" => false}}
+    lists = [
+      {"name" => "Waiting for RPI", "id" => "123", "hidden" => false},
+      {"name" => "Waiting for Interview", "id" => "789", "hidden" => false}]
     cards = [{"id" => "1", "name" => "card one", "idList" => "foobar"}, {"id" => "2", "name" => "card two", "idList" => "some_list_id"}]
 
     @board_presenter = Presenters::Board.new(board, lists, cards, stats)
