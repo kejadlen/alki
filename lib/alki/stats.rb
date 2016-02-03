@@ -31,6 +31,14 @@ module Alki
       ]
     end
 
+    def card_ids
+      self._histories.keys
+    end
+
+    def list_ids
+      self._histories.values.flatten.map(&:list_id).uniq.compact
+    end
+
     def wait_times
       return @wait_times if defined?(@wait_times)
 

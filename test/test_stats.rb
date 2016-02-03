@@ -40,4 +40,12 @@ class TestStats < Alki::Test
     assert_equal({ "some_list_id" => 172_800,
                    "yet_another_list_id" => 457_200 }, @stats.wait_times["2"])
   end
+
+  def test_card_ids
+    assert_equal %w[ 1 2 ], @stats.card_ids
+  end
+
+  def test_list_ids
+    assert_equal %w[ some_list_id another_list_id yet_another_list_id ], @stats.list_ids
+  end
 end
