@@ -16,13 +16,27 @@ class TestBoardPresenter < Alki::Test
           "another_list_id" => 30*60*60,
           "yet_another_list_id" => 50*60*60},
         "2" => {
-          "some_list_id" => 0}},
+          "some_list_id" => 0},
+        "3" => {
+          "a_hidden_list" => 10},
+        "4" => {
+          nil => 0}},
+      current_lists: {
+        "1" => "yet_another_list_id",
+        "2" => "some_list_id",
+        "3" => "a_hidden_list",
+        "4" => nil}
     )
     lists = [
       {"name" => "Waiting for RPI", "id" => "some_list_id", "hidden" => false},
       {"name" => "Waiting for Interview", "id" => "another_list_id", "hidden" => false},
-      {"name" => "A Hidden List", "id" => "a_hidden_list", "hidden" => true}]
-    cards = [{"id" => "1", "name" => "card one", "idList" => "foobar"}, {"id" => "2", "name" => "card two", "idList" => "some_list_id"}]
+      {"name" => "A Hidden List", "id" => "a_hidden_list", "hidden" => true},
+      {"name" => "Another List", "id" => "yet_another_list_id", "hidden" => false}]
+    cards = [
+      {"id" => "1", "name" => "card one", "idList" => "foobar"},
+      {"id" => "2", "name" => "card two", "idList" => "some_list_id"},
+      {"id" => "3"},
+      {"id" => "4"}]
 
     @board_presenter = Presenters::Board.new(board, lists, cards, stats)
   end
@@ -40,7 +54,9 @@ class TestBoardPresenter < Alki::Test
   end
 
   def test_lists
-    assert_equal %w[ some_list_id another_list_id ], @board_presenter.visible_lists.map { |list| list["id"] }
+    assert_equal(
+      %w[ some_list_id another_list_id yet_another_list_id ],
+      @board_presenter.visible_lists.map { |list| list["id"] })
   end
 
   def test_averages
@@ -52,5 +68,9 @@ class TestBoardPresenter < Alki::Test
     assert_equal "< 1 day", averages["some_list_id"]
     assert_equal "1 day", averages["another_list_id"]
     assert_equal "2 days", averages["yet_another_list_id"]
+  end
+
+  def test_cards
+    assert_equal %w[ 1 2 ], @board_presenter.visible_cards.map { |card| card["id"] }
   end
 end

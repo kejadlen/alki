@@ -3,13 +3,17 @@ module Alki
     class Board
       SECONDS_PER_DAY = 24*60*60
 
-      attr_reader :board, :lists, :cards, :stats, :visible_lists
+      attr_reader :board, :lists, :cards, :stats, :visible_lists, :visible_cards
 
       def initialize(board, lists, cards, stats)
         @board, @cards, @stats = board, cards, stats
 
         @lists = lists.sort_by { |list| list["pos"] }
         @visible_lists = lists.reject { |list| list["hidden"] }
+        @visible_cards = cards.select do |card|
+          list_id = stats.current_lists[card["id"]]
+          @visible_lists.map { |list| list["id"] }.include?(list_id)
+        end
       end
 
       def wait_time(card_id, list_id)
@@ -40,7 +44,6 @@ module Alki
           averages[list_id] = self._format_duration(duration)
         end
       end
-
 
       def _format_duration(duration)
         return "" if duration.nil?
