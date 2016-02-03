@@ -52,6 +52,10 @@ module Alki
       @wait_times
     end
 
+    def current_lists
+      Hash[self._histories.map {|card_id, history| [card_id, history.last.list_id] }]
+    end
+
     def _histories
       return @histories if defined?(@histories)
 

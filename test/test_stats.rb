@@ -48,4 +48,8 @@ class TestStats < Alki::Test
   def test_list_ids
     assert_equal %w[ some_list_id another_list_id yet_another_list_id ], @stats.list_ids
   end
+
+  def test_current_lists
+    assert_equal({"1" => nil, "2" => "yet_another_list_id"}, @stats.current_lists)
+  end
 end
